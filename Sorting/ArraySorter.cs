@@ -21,8 +21,12 @@ namespace Sorting
         /// </param>
         public static void CustomSort(this int[][] array, Creator creator)
         {
-            if (array == null)
+            if (array == null || creator is null)
                 throw new ArgumentNullException();
+
+            if (array.Length == 0)
+                throw new ArgumentException();
+
 
             BubbleArraySort(array, creator);
         }
@@ -55,10 +59,10 @@ namespace Sorting
         /// <summary>
         /// Custom swapping of two rows
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="first"></param>
-        /// <param name="second"></param>
-        /// <param name="array"></param>
+        /// <param name="position">Current position of sorting</param>
+        /// <param name="first">First row</param>
+        /// <param name="second">Second row</param>
+        /// <param name="array">Given array</param>
         private static void SwapRows(int position, int first, int second, int[][] array)
         {
             if (first > second)

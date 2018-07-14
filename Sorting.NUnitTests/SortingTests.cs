@@ -56,6 +56,7 @@ namespace Sorting.NUnitTests
         public void TestSumSotring_EmptyArray_ArgumentException() =>
            Assert.Throws(typeof(ArgumentException), () => new int[0][].CustomSort(new MinimumCreator()));
 
+
         #region Tests sources
         public static IEnumerable<TestCaseData> SourceAscendingAndMaximim()
         {

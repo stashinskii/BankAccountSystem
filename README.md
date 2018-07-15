@@ -22,6 +22,7 @@ Includes:
         * **Customer** - class 
 		* **AccountType** - enum
 		* **AccountException** - custom exception class
+		* **InvalidAccountOperationException** - custom exception class
 		* **AccountStatus** - enum
 		* **IAccount** - interface 
 * **BankAccount.NUnitTests**:

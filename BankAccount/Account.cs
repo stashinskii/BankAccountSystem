@@ -1,134 +1,139 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BankAccount
 {
     /// <summary>
-    /// Constantd describing type of account
+    /// Represents acount. Implements IAccount interface for managing basic actions and
+    /// operation with account
     /// </summary>
-    public enum AccountType
-    {
-        Base, Silver, Gold, Platinum
-    };
-
-    public static class BankManager
-    {
-        #region Public methods
-        public static Account[] accounts = new Account[0];
-
-        public static void CreateNewAccount(Account newAccount)
-        {
-            Add(newAccount);
-        }
-
-        public static void DeleteAccount(string id)
-        {
-            RemoveAt(id);
-        }
-
-        public static void Income(int amount, string id)
-        {
-            accounts[SearchAccount(id)].Income(amount);
-        }
-
-        public static void Outcome(int amount, string id)
-        {
-            accounts[SearchAccount(id)].Outcome(amount);
-        }
-        #endregion
-
-        #region Private methods
-        private static int SearchAccount(string id)
-        {
-            for (int i = 0; i < accounts.Length ; i++)
-            {
-                if (accounts[i].ID == id)
-                    return i;
-            }
-
-            throw new ArgumentException(nameof(id), "There is not such account with this id");
-        }
-
-        public static Tuple<Customer, int, double, AccountType, string> GetAccountData(string id)
-        {
-            Account account = accounts[SearchAccount(id)];
-            return new Tuple<Customer, int, double, AccountType, string>(account.FullName, account.Balance, account.ExtraPoints, account.Type, account.ID);
-        }
-
-        private static void Add(Account account)
-        {
-            Array.Resize(ref accounts, accounts.Length + 1);
-            accounts[accounts.Length - 1] = account;
-            
-        }
-
-        private static void RemoveAt(string id)
-        {
-            int index = SearchAccount(id);
-            if ((index >= 0) && (index < accounts.Length))
-            {
-                for (int i = index; i < accounts.Length - 1; i++)
-                    accounts[i] = accounts[i + 1];
-            }
-            Array.Resize(ref accounts, accounts.Length - 1);
-        }
-        #endregion
-    }
-
-    public class Account
+    public class Account: IAccount
     {
         #region Public properties
         public string ID { get; set; }
-        public bool AccountStatus { get; set; }
         public int Balance { get; set; }
-        public Customer FullName { get; set; }
-        public AccountType Type { get; set; }
         public double ExtraPoints { get; set; }
+
+        public AccountStatus Status { get; set; }
+        public Customer CustomerInformation { get; set; }
+        public AccountType Type { get; set; }
         #endregion
 
         #region Constructors
-        public Account(AccountType type, Customer name)
+        /// <summary>
+        /// Construcor which is pass Customer object
+        /// </summary>
+        /// <param name="type">Type of account</param>
+        /// <param name="customer">Customer instance</param>
+        public Account(AccountType type, Customer customer)
         {
             ID = Guid.NewGuid().ToString();
-            FullName = name;
+            CustomerInformation = customer;
             Type = type;
             ExtraPoints = 30;
-            AccountStatus = true;
+            Status = AccountStatus.Opened;
         }
 
-        public Account(AccountType type, string name, string surname, string email, DateTime? birth = null, string passport = null)
+        /// <summary>
+        /// Constructor which is pass full information about customer
+        /// </summary>
+        /// <param name="type">Type of account</param>
+        /// <param name="name">Customer's name</param>
+        /// <param name="surname">Customer's surname</param>
+        /// <param name="email">Customer's email</param>
+        /// <param name="passport">Customer's passport (optional)</param>
+        public Account(AccountType type, string name, string surname, string email, string passport = null)
         {
             ID = Guid.NewGuid().ToString();
             Type = type;
-            FullName = new Customer(name, surname, email, birth, passport);
+            CustomerInformation = new Customer(name, surname, email, passport);
             ExtraPoints = 30;
-            AccountStatus = true;
+            Status = AccountStatus.Opened;
         }
         #endregion
 
         #region Public methods
-        public void DeleteAccount()
+        /// <summary>
+        /// Close given account. After closing account it is still availible to get
+        /// some information, but operations with account are blocked
+        /// </summary>
+        /// <exception cref="InvalidAccountOperationException">
+        /// Raises if given account is closed
+        /// </exception>
+        public void CloseAccount()
         {
-            AccountStatus = false;
+            CheckStatus();
+            Balance = 0;
+            ExtraPoints = 0;
+            Status = AccountStatus.Closed;
         }
+
+        /// <summary>
+        /// Income money of bank account
+        /// </summary>
+        /// <param name="amount">Amount of incoming money</param>
         public void Income(int amount)
         {
+            CheckStatus();
             Balance += amount;
             ExtraPoints += IncomeExtraPoint(amount);
         }
+
+        /// <summary>
+        /// Outcome money of bank account. If difference from current balance
+        /// and given amount is negative value - it raises InvalidAccountOperationException
+        /// </summary>
+        /// <param name="amount">Amount of outcoming money</param>
         public void Outcome(int amount)
         {
+            CheckStatus();
+            if ((Balance - amount) < 0)
+            {
+                throw new InvalidAccountOperationException("You don't have enough money for that!");
+            }
             Balance -= amount;
             ExtraPoints -= OutcomeExtraPoint(amount);
+        }
+
+        /// <summary>
+        /// Give access to basic account's inmformation (Customer info, ID, balance, extra points, 
+        /// account status)
+        /// </summary>
+        /// <returns>Tuple of information</returns>
+        public Tuple<Customer, string, int, double, AccountStatus> GetAccountData()
+        {
+            return new Tuple<Customer, string, int, double, AccountStatus>(CustomerInformation, ID, Balance, ExtraPoints, Status);
         }
         #endregion
 
         #region Privatemethods
+        /// <summary>
+        /// Checks if account is closed
+        /// </summary>
+        /// <exception cref="InvalidAccountOperationException">
+        /// Raises if accont is closedd
+        /// </exception>
+        private void CheckStatus()
+        {
+            if (Status == AccountStatus.Closed)
+                throw new InvalidAccountOperationException("Account is closed");
+        }
+
+        /// <summary>
+        /// Counting extra points while income operation where called
+        /// </summary>
+        /// <param name="amount">Amount of money</param>
+        /// <returns>Extra points value</returns>
         private double IncomeExtraPoint(int amount)
         {
             return (int)Type * amount * 0.1;
         }
+
+        /// <summary>
+        /// Counting extra points while outcome operation where called
+        /// </summary>
+        /// <param name="amount">Amount of money</param>
+        /// <returns>Extra points value</returns>
         private double OutcomeExtraPoint(int amount)
         {
             return (int)Type * amount * 0.05;
@@ -136,6 +141,9 @@ namespace BankAccount
         #endregion
     }
 
+    /// <summary>
+    /// Represents owner of Account
+    /// </summary>
     public class Customer
     {
         #region Public properties
@@ -143,25 +151,29 @@ namespace BankAccount
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string EMail { get; set; }
-        DateTime? birthDate { get; set; }
         string passportNumber { get; set; }
         #endregion
 
         #region Constructors 
-        public Customer(string name, string surname, string email, DateTime? birth = null, string passport = null)
+        public Customer(string name, string surname, string email, string passport = null)
         {
-            CheckCustomerData(email, name, surname, passport);
+            CheckCustomerData(email, name, surname);
             FirstName = name;
             EMail = email;
             SecondName = surname;
-            birthDate = birth;
             passportNumber = passport;
             ID = Guid.NewGuid().ToString();
         }
         #endregion
 
         #region Private methods
-        private static void CheckCustomerData(string email, string name, string surname, string passport)
+        /// <summary>
+        /// Checks given data accoring to rules
+        /// </summary>
+        /// <param name="email">String representation of emial</param>
+        /// <param name="name">Customer's name</param>
+        /// <param name="surname">Customer's surname</param>
+        private static void CheckCustomerData(string email, string name, string surname)
         {
             Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if (!emailRegex.IsMatch(email))
@@ -172,6 +184,11 @@ namespace BankAccount
             if (name == null || surname == null)
             {
                 throw new ArgumentNullException("Empty customer data");
+            }
+             
+            if (name == string.Empty || surname == string.Empty)
+            {
+                throw new ArgumentException("Empty customer data");
             }
         }
         #endregion

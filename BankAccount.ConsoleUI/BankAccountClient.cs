@@ -8,31 +8,40 @@ namespace BankAccount.ConsoleUI
 {
     class BankAccountClient
     {
-        public static void PrintAccountInfo(Tuple<Customer, int, double, AccountType, string> data)
+        public static void PrintAccountInfo(Account customerAccount)
         {
-           
-            Console.WriteLine(data.Item1.FirstName + " " + data.Item1.SecondName);
-            Console.WriteLine("Balance:" + data.Item2);
-            Console.WriteLine("Extra Point:" + data.Item3);
+            Tuple<Customer, string, int, double, AccountStatus> data = customerAccount.GetAccountData();
+            Console.WriteLine("Customer information: {0} {1}", data.Item1.FirstName, data.Item1.SecondName);
+            Console.WriteLine("ID: {0}", data.Item2);
+            Console.WriteLine("Balance: {0}", data.Item3);
+            Console.WriteLine("Extra Point: {0}", data.Item4);
+            Console.WriteLine("Accoutn status: {0}", data.Item5);
+            Console.WriteLine();
         }
 
         static void Main(string[] args)
         {
             Customer customer = new Customer("Herman", "Stashynski", "germanstashinskii@gmail.com");
             Account hermanAccount = new Account(AccountType.Gold, customer);
+            PrintAccountInfo(hermanAccount);
 
-            BankManager.CreateNewAccount(hermanAccount);
-            string id = hermanAccount.ID;
-            Tuple<Customer, int, double, AccountType, string> data = BankManager.GetAccountData(id);
-            PrintAccountInfo(data);
+            hermanAccount.Income(10);
+            PrintAccountInfo(hermanAccount);
 
-            BankManager.Income(20, id);
-            BankManager.Outcome(10, id);
-            Console.WriteLine(hermanAccount.Balance);
+            hermanAccount.Outcome(5);
+            PrintAccountInfo(hermanAccount);
 
+            hermanAccount.CloseAccount();
+            PrintAccountInfo(hermanAccount);
 
-            Tuple<Customer, int, double, AccountType, string> data1 = BankManager.GetAccountData(id);
-            PrintAccountInfo(data);
+            try
+            {
+                hermanAccount.Income(50);
+            }
+            catch (InvalidAccountOperationException)
+            {
+                Console.WriteLine("Closed account! Invalid operation!");
+            }
 
             Console.ReadKey();
         }

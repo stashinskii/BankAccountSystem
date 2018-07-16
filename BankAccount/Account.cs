@@ -194,3 +194,31 @@ namespace BankAccount
         #endregion
     }
 }
+
+/*
+ 1. IAccountNumberGenerator - Strtegy
+ 2. AccountService (открыть счёт и т.д.) Open принимает как минимум параметр IAccountNumberGenerator.
+     1. Операции со счетом делать по ID
+     2. IRepository:
+         1. Save(Account account) - CRAT (Create, Read, Update, etc.)
+         2. В ближайшее время это будет обычный лист (обертка List) (public class FakeRepository: IRepository - так прямо и назвать)
+         3. ConsoleUI взаимодействует с сервисом
+   
+ 3. AccountHolder - на email можно отправлять сообщения  и т.п.
+     1. Wirthdraw, Deposit - других не надо названий. 
+     2. Деньги - это decimal
+     3. 
+ 4. Убрать IAccount
+    Там ещё ккой-то паттерн
+    У одного Holder может быть много счетов List<IAccount> т.е. разные типы аккаунтов
+    -Оставить AccountType как enum, но там оговорки
+    Можно уходить в минус на определенную величину
+
+    Вычисление BonusPoint- абстрактно
+
+    1. Проект с логикой
+    2. Проект с репозиторием возможо эо дикт, чтоыб не искать по ID (Dict<ID, Account>)
+    3. Консоль
+
+    Списание - 
+     */

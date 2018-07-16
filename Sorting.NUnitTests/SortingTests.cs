@@ -1,6 +1,5 @@
 ﻿using System;
 using Sorting;
-using Sorting.Factory;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -10,25 +9,25 @@ namespace Sorting.NUnitTests
     public class SortingTests
     { 
 
-        [TestCaseSource("SourceAscendingAndMaximim")]
+        [TestCaseSource("SourceSumAndMaximim")]
         public void TestSumSotring_Ascending(int[] first, int[] second, int[] third, int[] fourth, int[][] expected)
         {
             int[][] array = new int[4][] { first, second, third, fourth };
 
-            Creator creator = new AscendingCreator();
-            array.CustomSort(creator);
+            IComparer comparator = new SortBySum();
+            array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
 
         }
 
-        [TestCaseSource("SourceAscendingAndMaximim")]
+        [TestCaseSource("SourceSumAndMaximim")]
         public void TestSumSotring_Maximum(int[] first, int[] second, int[] third, int[] fourth, int[][] expected)
         {
             int[][] array = new int[4][] { first, second, third, fourth };
 
-            Creator creator = new MaximumCreator();
-            array.CustomSort(creator);
+            IComparer comparator = new SortByMax();
+            array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
         }
@@ -38,27 +37,27 @@ namespace Sorting.NUnitTests
         {
             int[][] array = new int[3][] { first, second, third };
 
-            Creator creator = new MinimumCreator();
-            array.CustomSort(creator);
+            IComparer comparator = new SortByMin();
+            array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
         }
 
         [TestCase(null)]
         public void TestSumSotring_ArgumentNullException(int[][] array) =>
-           Assert.Throws(typeof(ArgumentNullException), () => array.CustomSort(new MinimumCreator()));
+           Assert.Throws(typeof(ArgumentNullException), () => array.BubbleArraySort(new SortByMax()));
 
         [TestCase(null)]
-        public void TestSumSotring_CreatorNull_ArgumentNullException(Creator creator) =>
-           Assert.Throws(typeof(ArgumentNullException), () => new int[5][].CustomSort(creator));
+        public void TestSumSotring_CreatorNull_ArgumentNullException(IComparer comparator) =>
+           Assert.Throws(typeof(ArgumentNullException), () => new int[5][].BubbleArraySort(comparator));
 
         [Test]
         public void TestSumSotring_EmptyArray_ArgumentException() =>
-           Assert.Throws(typeof(ArgumentException), () => new int[0][].CustomSort(new MinimumCreator()));
+           Assert.Throws(typeof(ArgumentException), () => new int[0][].BubbleArraySort(new SortByMax()));
 
 
         #region Tests sources
-        public static IEnumerable<TestCaseData> SourceAscendingAndMaximim()
+        public static IEnumerable<TestCaseData> SourceSumAndMaximim()
         {
             yield return new TestCaseData(
                 new int[] { 50, 50}, new int[] { 10, 10, 10 }, new int[] { 60, 60, 60 }, new int[] { 55, 55 },

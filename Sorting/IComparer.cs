@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccount
+namespace Sorting
 {
-    public enum AccountStatus
+    public interface IComparer
     {
-        Closed, Opened, Frozen
-    };
+        int Compare(int[] lhs, int[] rhs);
+    }
 }

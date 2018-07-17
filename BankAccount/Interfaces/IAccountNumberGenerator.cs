@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccount.BankAccount.Core.Interfaces
+namespace BankAccount.Core.Interfaces
 {
-    class IAccountNumberGenerator
+    public interface IAccountNumberGenerator
     {
+        string GenerateAccountNumber(string serialNumber);
     }
 }

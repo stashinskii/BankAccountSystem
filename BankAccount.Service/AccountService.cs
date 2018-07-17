@@ -3,22 +3,26 @@ using BankAccount.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using BankAccount.Core;
+using BankAccount.Core.Interfaces;
+
 
 namespace BankAccount.Service
 {
     public class AccountService
     {
         private IRepository repository;
+        private IAccountNumberGenerator generator;
 
-        public AccountService(IRepository givenRepository)
+        public AccountService(IRepository givenRepository, IAccountNumberGenerator givenGenerator)
         {
             repository = givenRepository;
+            generator = givenGenerator;
         }
 
         public void OpenAccount(string name, string surname, string email, string passport = null)
         {
-            IAccount newAccount = new Account(AccountType.Gold, name, surname, email, passport);
+            IAccount newAccount = new Account(AccountType.Gold, generator, name, surname, email, passport);
             repository.Create(newAccount);
         }
 

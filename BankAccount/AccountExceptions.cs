@@ -1,6 +1,7 @@
 ﻿using System;
+using BankAccount.Core.Interfaces;
 
-namespace BankAccount
+namespace BankAccount.Core
 {
     /// <summary>
     /// Base exception for common troubles with Account

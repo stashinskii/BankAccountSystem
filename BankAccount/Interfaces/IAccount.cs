@@ -1,4 +1,4 @@
-﻿namespace BankAccount
+﻿namespace BankAccount.Core.Interfaces
 {
     /// <summary>
     /// Represents basic operations for implementation for account classes 

@@ -1,4 +1,6 @@
 ﻿using System;
+using BankAccount.Core;
+using BankAccount.Core.Interfaces;
 using NUnit.Framework;
 
 namespace BankAccount.NUnitTests
@@ -6,18 +8,22 @@ namespace BankAccount.NUnitTests
     [TestFixture]
     public class AccountTests
     {
+        /*
         public Account AccountGenerator()
         {
             string name = "Herman", surname = "Stashynski", email = "germanstashinskii@gmail.com";
-            return new Account(AccountType.Platinum, name, surname, email);
+            //return new Account(AccountType.Platinum, name, surname, email);
         }
+        */
 
+            /*
         [Test]
         public void AccountTest_CreateAccount()
         {
             Account account = AccountGenerator();
             Assert.IsInstanceOf(typeof(Account), account);
         }
+        */
 
         /*
         [TestCase(ExpectedResult = 10)]
@@ -38,6 +44,7 @@ namespace BankAccount.NUnitTests
             return account.Balance;
         }*/
 
+            /*
         [TestCase(ExpectedResult = AccountStatus.Closed)]
         public AccountStatus AcountTest_CloseAccount()
         {
@@ -79,5 +86,6 @@ namespace BankAccount.NUnitTests
             Account account = AccountGenerator();
             Assert.Throws(typeof(InvalidAccountOperationException), () => account.Wirthdraw(10));
         }
+        */
     }
 }

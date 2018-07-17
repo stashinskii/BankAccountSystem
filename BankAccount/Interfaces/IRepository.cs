@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankAccount
+namespace BankAccount.Core.Interfaces
 {
-    public interface IRepository
+    public interface IRepository : IDisposable
     {
         Dictionary<string, IAccount> Accounts { get; set; }
 

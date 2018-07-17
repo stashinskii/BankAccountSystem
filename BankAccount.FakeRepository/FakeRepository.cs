@@ -1,4 +1,6 @@
 ﻿using System;
+using BankAccount.Core.Interfaces;
+using BankAccount.Core;
 using System.Collections.Generic;
 
 namespace BankAccount.Repository
@@ -35,6 +37,10 @@ namespace BankAccount.Repository
         public IAccount GetByNumber(string id)
         {
             return Accounts[id];
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

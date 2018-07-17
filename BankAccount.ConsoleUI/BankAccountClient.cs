@@ -1,4 +1,6 @@
 ﻿using System;
+using BankAccount.Core;
+using BankAccount.Core.Interfaces;
 using BankAccount.Service;
 using BankAccount.Repository;
 using System.Collections.Generic;
@@ -31,11 +33,9 @@ namespace BankAccount.ConsoleUI
 
         static void Main(string[] args)
         {
-            Holder customer = new Holder("Herman", "Stashynski", "germanstashinskii@gmail.com");
-            Account hermanAccount = new Account(AccountType.Gold, customer);
 
             FakeRepository repository = new FakeRepository();
-            AccountService service = new AccountService(repository);
+            AccountService service = new AccountService(repository, new AccountNumberGenerator());
 
             service.OpenAccount("Herman", "Stashynski", "germanstashinskii@gmail.com");
             service.OpenAccount("New", "Person", "newperson@gmail.com");

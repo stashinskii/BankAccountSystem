@@ -1,4 +1,6 @@
 ﻿using System;
+using BankAccount.Service;
+using BankAccount.Repository;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,40 +10,47 @@ namespace BankAccount.ConsoleUI
 {
     class BankAccountClient
     {
-        public static void PrintAccountInfo(Account customerAccount)
+        public static List<string> GetAllAccountNumbers(Dictionary<string, IAccount> data)
         {
-            Tuple<Customer, string, int, double, AccountStatus> data = customerAccount.GetAccountData();
-            Console.WriteLine("Customer information: {0} {1}", data.Item1.FirstName, data.Item1.SecondName);
-            Console.WriteLine("ID: {0}", data.Item2);
-            Console.WriteLine("Balance: {0}", data.Item3);
-            Console.WriteLine("Extra Point: {0}", data.Item4);
-            Console.WriteLine("Accoutn status: {0}", data.Item5);
-            Console.WriteLine();
+            List<string> accountNumbers = new List<string>(); 
+            foreach (KeyValuePair<string, IAccount> account in data)
+            {
+                accountNumbers.Add(account.Key);
+            }
+
+            return accountNumbers;
+        }
+        public static void PrintAccountInfo(Dictionary<string, IAccount> data)
+        {
+            foreach (KeyValuePair<string, IAccount> account in data)
+            {
+                Console.WriteLine("{0} {1}", account.Value.AccountHolder.FirstName, account.Value.AccountHolder.SecondName);
+                Console.WriteLine(account.Value.Balance);
+            }
         }
 
         static void Main(string[] args)
         {
-            Customer customer = new Customer("Herman", "Stashynski", "germanstashinskii@gmail.com");
+            Holder customer = new Holder("Herman", "Stashynski", "germanstashinskii@gmail.com");
             Account hermanAccount = new Account(AccountType.Gold, customer);
-            PrintAccountInfo(hermanAccount);
 
-            hermanAccount.Income(10);
-            PrintAccountInfo(hermanAccount);
+            FakeRepository repository = new FakeRepository();
+            AccountService service = new AccountService(repository);
 
-            hermanAccount.Outcome(5);
-            PrintAccountInfo(hermanAccount);
+            service.OpenAccount("Herman", "Stashynski", "germanstashinskii@gmail.com");
+            service.OpenAccount("New", "Person", "newperson@gmail.com");
+            
 
-            hermanAccount.CloseAccount();
-            PrintAccountInfo(hermanAccount);
+            Dictionary<string, IAccount> allAccount = service.GetAllAccount();
+            PrintAccountInfo(allAccount);
 
-            try
+            foreach (string number in GetAllAccountNumbers(allAccount))
             {
-                hermanAccount.Income(50);
+                service.Deposite(number, 20);
             }
-            catch (InvalidAccountOperationException)
-            {
-                Console.WriteLine("Closed account! Invalid operation!");
-            }
+
+            Dictionary<string, IAccount> afterDeposite = service.GetAllAccount();
+            PrintAccountInfo(afterDeposite);
 
             Console.ReadKey();
         }

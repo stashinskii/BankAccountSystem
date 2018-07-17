@@ -11,6 +11,6 @@ namespace BankAccount
     /// </summary>
     public enum AccountType
     {
-        Base, Silver, Gold, Platinum
+        Base, Gold, Platinum
     };
 }

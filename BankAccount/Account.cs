@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace BankAccount
@@ -10,12 +11,12 @@ namespace BankAccount
     public class Account: IAccount
     {
         #region Public properties
-        public string ID { get; set; }
-        public int Balance { get; set; }
-        public double ExtraPoints { get; set; }
+        public string AccountNumber { get; set; }
+        public decimal Balance { get; set; }
+        public decimal ExtraPoints { get; set; }
 
         public AccountStatus Status { get; set; }
-        public Customer CustomerInformation { get; set; }
+        public Holder AccountHolder { get; set; }
         public AccountType Type { get; set; }
         #endregion
 
@@ -25,10 +26,10 @@ namespace BankAccount
         /// </summary>
         /// <param name="type">Type of account</param>
         /// <param name="customer">Customer instance</param>
-        public Account(AccountType type, Customer customer)
+        public Account(AccountType type, Holder customer)
         {
-            ID = Guid.NewGuid().ToString();
-            CustomerInformation = customer;
+            AccountNumber = Guid.NewGuid().ToString();
+            AccountHolder = customer;
             Type = type;
             ExtraPoints = 30;
             Status = AccountStatus.Opened;
@@ -44,9 +45,9 @@ namespace BankAccount
         /// <param name="passport">Customer's passport (optional)</param>
         public Account(AccountType type, string name, string surname, string email, string passport = null)
         {
-            ID = Guid.NewGuid().ToString();
+            AccountNumber = Guid.NewGuid().ToString();
             Type = type;
-            CustomerInformation = new Customer(name, surname, email, passport);
+            AccountHolder = new Holder(name, surname, email, passport);
             ExtraPoints = 30;
             Status = AccountStatus.Opened;
         }
@@ -72,7 +73,7 @@ namespace BankAccount
         /// Income money of bank account
         /// </summary>
         /// <param name="amount">Amount of incoming money</param>
-        public void Income(int amount)
+        public void Deposit(decimal amount)
         {
             CheckStatus();
             Balance += amount;
@@ -84,7 +85,7 @@ namespace BankAccount
         /// and given amount is negative value - it raises InvalidAccountOperationException
         /// </summary>
         /// <param name="amount">Amount of outcoming money</param>
-        public void Outcome(int amount)
+        public void Wirthdraw(decimal amount)
         {
             CheckStatus();
             if ((Balance - amount) < 0)
@@ -100,9 +101,9 @@ namespace BankAccount
         /// account status)
         /// </summary>
         /// <returns>Tuple of information</returns>
-        public Tuple<Customer, string, int, double, AccountStatus> GetAccountData()
+        public Tuple<Holder, string, decimal, decimal, AccountStatus> GetAccountData()
         {
-            return new Tuple<Customer, string, int, double, AccountStatus>(CustomerInformation, ID, Balance, ExtraPoints, Status);
+            return new Tuple<Holder, string, decimal, decimal, AccountStatus>(AccountHolder, AccountNumber, Balance, ExtraPoints, Status);
         }
         #endregion
 
@@ -124,9 +125,9 @@ namespace BankAccount
         /// </summary>
         /// <param name="amount">Amount of money</param>
         /// <returns>Extra points value</returns>
-        private double IncomeExtraPoint(int amount)
+        private decimal IncomeExtraPoint(decimal amount)
         {
-            return (int)Type * amount * 0.1;
+            return (decimal)Type * amount;
         }
 
         /// <summary>
@@ -134,9 +135,9 @@ namespace BankAccount
         /// </summary>
         /// <param name="amount">Amount of money</param>
         /// <returns>Extra points value</returns>
-        private double OutcomeExtraPoint(int amount)
+        private decimal OutcomeExtraPoint(decimal amount)
         {
-            return (int)Type * amount * 0.05;
+            return (decimal)Type * amount;
         }
         #endregion
     }
@@ -144,7 +145,7 @@ namespace BankAccount
     /// <summary>
     /// Represents owner of Account
     /// </summary>
-    public class Customer
+    public class Holder
     {
         #region Public properties
         string ID { get; set; }
@@ -155,7 +156,7 @@ namespace BankAccount
         #endregion
 
         #region Constructors 
-        public Customer(string name, string surname, string email, string passport = null)
+        public Holder(string name, string surname, string email, string passport = null)
         {
             CheckCustomerData(email, name, surname);
             FirstName = name;

@@ -19,22 +19,24 @@ namespace BankAccount.NUnitTests
             Assert.IsInstanceOf(typeof(Account), account);
         }
 
+        /*
         [TestCase(ExpectedResult = 10)]
         public int AcountTest_IncomeTests()
         {
             Account account = AccountGenerator();
-            account.Income(10);
-            return account.Balance;
-        }
+            account.Deposit(10);
+            //return account.Balance;
+        }*/
 
+            /*
         [TestCase(ExpectedResult = 5)]
         public int AccountTest_OutcomeTests()
         {
             Account account = AccountGenerator();
-            account.Income(10);
-            account.Outcome(5);
+            account.Deposit(10);
+            account.Wirthdraw(5);
             return account.Balance;
-        }
+        }*/
 
         [TestCase(ExpectedResult = AccountStatus.Closed)]
         public AccountStatus AcountTest_CloseAccount()
@@ -49,8 +51,8 @@ namespace BankAccount.NUnitTests
         {
             Account account = AccountGenerator();
             account.CloseAccount();
-            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Income(10));
-            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Outcome(10));
+            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Deposit(10));
+            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Wirthdraw(10));
         }
 
         [Test]
@@ -75,7 +77,7 @@ namespace BankAccount.NUnitTests
         public void AccountTest_NegativeBalanceException()
         {
             Account account = AccountGenerator();
-            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Outcome(10));
+            Assert.Throws(typeof(InvalidAccountOperationException), () => account.Wirthdraw(10));
         }
     }
 }

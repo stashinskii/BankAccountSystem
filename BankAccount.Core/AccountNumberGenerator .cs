@@ -22,6 +22,11 @@ namespace BankAccount.Core
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// Generate custom 
+        /// </summary>
+        /// <param name="serialNumber">Serial number of account. Provides ability of creating unique number</param>
+        /// <returns>Account number</returns>
         public string GenerateAccountNumber(string serialNumber)
         {
             return String.Concat(NON_STATE_ORGANISATION, "-",

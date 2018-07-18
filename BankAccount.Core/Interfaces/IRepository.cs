@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace BankAccount.Core.Interfaces
 {
+    /// <summary>
+    /// Represents interface which provide ability of managing accont 
+    /// by service by different databases
+    /// </summary>
     public interface IRepository : IDisposable
     {
         Dictionary<string, Account> Accounts { get; set; }

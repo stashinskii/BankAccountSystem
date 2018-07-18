@@ -14,18 +14,15 @@ Includes:
 	
 ### Bank Account:
 
-* **BankAccount**:
-    * Содержит описание всех сущностей, которые предоставляют полную информацию об аккаунта:
-        * **Account** - class
-        * **Customer** - class 
-		* **AccountType** - enum
-		* **AccountException** - custom exception class
-		* **InvalidAccountOperationException** - custom exception class
-		* **AccountStatus** - enum
-		* **IAccount** - interface 
+* **BankAccount.Core**:
+    Описание основых сущностей
 * **BankAccount.NUnitTests**:
     * Модульные тесты
 * **BankAccount.ConsoleUI**:
     * Консольное клиент-приложение для работы с банковским счетом
+* **BankAccount.Repository**:
+    * Реализация FakeRepository 
+* **BankRepository.Service**:
+    * Менеджер счетов
 	
 

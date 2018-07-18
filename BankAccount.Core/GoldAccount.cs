@@ -7,10 +7,15 @@ using System.Threading.Tasks;
 
 namespace BankAccount.Core
 {
+    /// <summary>
+    /// Represents acount of Golden type. Implements AbstactAccount class for managing basic actions and
+    /// operation with account
+    /// </summary>
     public class GoldAccount: Account
     {
         private const double bonusCoefficient = 0.2;
 
+        #region Contructors
         public GoldAccount(IAccountNumberGenerator numberGenerator, Holder customer) : base(numberGenerator, customer)
         {
             Type = AccountType.Gold;
@@ -22,5 +27,6 @@ namespace BankAccount.Core
             Type = AccountType.Gold;
             BonusPointsCoefficient = bonusCoefficient;
         }
+        #endregion
     }
 }

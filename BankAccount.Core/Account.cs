@@ -39,6 +39,10 @@ namespace BankAccount.Core
         #endregion
 
         #region Public methods
+        /// <summary>
+        /// Income of money
+        /// </summary>
+        /// <param name="amount">Amount of income money</param>
         public void Deposit(decimal amount)
         {
             CheckStatus();
@@ -46,6 +50,10 @@ namespace BankAccount.Core
             BonusPoints += IncomeExtraPoint(amount);
         }
 
+        /// <summary>
+        /// Outcome of money
+        /// </summary>
+        /// <param name="amount">Amount of outcome money</param>
         public void Wirthdraw(decimal amount)
         {
             CheckStatus();
@@ -57,6 +65,9 @@ namespace BankAccount.Core
             BonusPoints -= OutcomeExtraPoint(amount);
         }
 
+        /// <summary>
+        /// Close given account. Propery of Status will get into AccountStatus.Closed state
+        /// </summary>
         public void CloseAccount()
         {
             CheckStatus();
@@ -64,23 +75,36 @@ namespace BankAccount.Core
             BonusPoints = 0;
             Status = AccountStatus.Closed;
         }
-
-        public void CheckStatus()
-        {
-            if (Status == AccountStatus.Closed)
-                throw new InvalidAccountOperationException("Account is closed");
-        }
         #endregion
 
         #region Privtae methods
+        /// <summary>
+        /// Get amount of bonus points for deposit operation
+        /// </summary>
+        /// <param name="amount">Amount of money</param>
+        /// <returns>Amount of bonus points</returns>
         private int IncomeExtraPoint(decimal amount)
         {
             return (int)(BonusPointsCoefficient * (int)amount);
         }
 
+        /// <summary>
+        /// Get amount of bonus points for wirthdraw operation
+        /// </summary>
+        /// <param name="amount">Amount of money</param>
+        /// <returns>Amount of bonus points</returns>
         private int OutcomeExtraPoint(decimal amount)
         {
             return (int)(BonusPointsCoefficient * (int)amount) / 2;
+        }
+
+        /// <summary>
+        /// Checks if account is closed or frozen
+        /// </summary>
+        private void CheckStatus()
+        {
+            if (Status == AccountStatus.Closed || Status == AccountStatus.Frozen)
+                throw new InvalidAccountOperationException("Account is closed");
         }
         #endregion
     }

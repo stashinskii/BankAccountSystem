@@ -5,13 +5,14 @@ using System.Text.RegularExpressions;
 namespace BankAccount.Core
 {
     /// <summary>
-    /// Represents acount. Implements AbstactAccount class for managing basic actions and
+    /// Represents acount of Base type. Implements AbstactAccount class for managing basic actions and
     /// operation with account
     /// </summary>
     public class BaseAccount: Account
     {
-        private const double bonusCoefficient = 0.1; 
+        private const double bonusCoefficient = 0.1;
 
+        #region Contructors
         public BaseAccount(IAccountNumberGenerator numberGenerator, Holder customer) : base(numberGenerator, customer)
         {
             Type = AccountType.Base;
@@ -23,5 +24,6 @@ namespace BankAccount.Core
             Type = AccountType.Base;
             BonusPointsCoefficient = bonusCoefficient;
         }
+        #endregion
     }
 }

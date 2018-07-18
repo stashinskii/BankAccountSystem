@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace BankAccount.Repository
 {
+    /// <summary>
+    /// Represents implementation of Fake Repository.
+    /// Implemented as a container of Dictionary
+    /// </summary>
     public class FakeRepository : IRepository
     {
         public Dictionary<string, Account> Accounts { get; set; }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BankAccount.Core
 {
+    /// <summary>
+    /// Represents availible status of Account
+    /// </summary>
     public enum AccountStatus
     {
         Closed, Opened, Frozen

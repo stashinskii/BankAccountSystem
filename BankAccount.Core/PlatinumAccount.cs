@@ -7,10 +7,16 @@ using System.Threading.Tasks;
 
 namespace BankAccount.Core
 {
+
+    /// <summary>
+    /// Represents acount of Platinum type. Implements AbstactAccount class for managing basic actions and
+    /// operation with account
+    /// </summary>
     public class PlatinumAccount : Account
     {
         private const double bonusCoefficient = 0.3;
 
+        #region Constructors
         public PlatinumAccount(IAccountNumberGenerator numberGenerator, Holder customer) : base(numberGenerator, customer)
         {
             Type = AccountType.Platinum;
@@ -22,5 +28,6 @@ namespace BankAccount.Core
             Type = AccountType.Platinum;
             BonusPointsCoefficient = bonusCoefficient;
         }
+        #endregion
     }
 }

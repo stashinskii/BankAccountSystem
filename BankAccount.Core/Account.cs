@@ -10,6 +10,7 @@ namespace BankAccount.Core
     {
         #region Properties
         protected double BonusPointsCoefficient { get; set; }
+        protected decimal MinimumBalance { get; set; }
 
         public AccountStatus Status { get; set; }
         public Holder AccountHolder { get; set; }
@@ -57,7 +58,7 @@ namespace BankAccount.Core
         public void Wirthdraw(decimal amount)
         {
             CheckStatus();
-            if ((Balance - amount) < 0)
+            if ((Balance - amount) < MinimumBalance)
             {
                 throw new InvalidAccountOperationException("You don't have enough money for that!");
             }

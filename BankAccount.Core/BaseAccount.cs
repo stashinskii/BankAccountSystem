@@ -11,18 +11,21 @@ namespace BankAccount.Core
     public class BaseAccount: Account
     {
         private const double bonusCoefficient = 0.1;
+        private const decimal MINIMUM = -100;
 
         #region Contructors
         public BaseAccount(IAccountNumberGenerator numberGenerator, Holder customer) : base(numberGenerator, customer)
         {
             Type = AccountType.Base;
             BonusPointsCoefficient = bonusCoefficient;
+            MinimumBalance = MINIMUM;
         }
 
         public BaseAccount(IAccountNumberGenerator numberGenerator, string name, string surname, string email, string passport = null) : base(numberGenerator, name, surname, email, passport)
         {
             Type = AccountType.Base;
             BonusPointsCoefficient = bonusCoefficient;
+            MinimumBalance = MINIMUM;
         }
         #endregion
     }

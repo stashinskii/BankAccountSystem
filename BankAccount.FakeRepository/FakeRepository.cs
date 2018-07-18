@@ -7,14 +7,14 @@ namespace BankAccount.Repository
 {
     public class FakeRepository : IRepository
     {
-        public Dictionary<string, IAccount> Accounts { get; set; }
+        public Dictionary<string, Account> Accounts { get; set; }
 
         public FakeRepository()
         {
-            Accounts = new Dictionary<string, IAccount>();
+            Accounts = new Dictionary<string, Account>();
         }
 
-        public void Create(IAccount account)
+        public void Create(Account account)
         {
             Accounts.Add(account.AccountNumber, account);
         }
@@ -29,12 +29,12 @@ namespace BankAccount.Repository
 
         }
 
-        public Dictionary<string, IAccount> Read()
+        public Dictionary<string, Account> Read()
         {
             return Accounts;
         }
 
-        public IAccount GetByNumber(string id)
+        public Account GetByNumber(string id)
         {
             return Accounts[id];
         }

@@ -12,19 +12,19 @@ namespace BankAccount.ConsoleUI
 {
     class BankAccountClient
     {
-        public static List<string> GetAllAccountNumbers(Dictionary<string, IAccount> data)
+        public static List<string> GetAllAccountNumbers(Dictionary<string, Account> data)
         {
             List<string> accountNumbers = new List<string>(); 
-            foreach (KeyValuePair<string, IAccount> account in data)
+            foreach (KeyValuePair<string, Account> account in data)
             {
                 accountNumbers.Add(account.Key);
             }
 
             return accountNumbers;
         }
-        public static void PrintAccountInfo(Dictionary<string, IAccount> data)
+        public static void PrintAccountInfo(Dictionary<string, Account> data)
         {
-            foreach (KeyValuePair<string, IAccount> account in data)
+            foreach (KeyValuePair<string, Account> account in data)
             {
                 Console.WriteLine("{0} {1}", account.Value.AccountHolder.FirstName, account.Value.AccountHolder.SecondName);
                 Console.WriteLine(account.Value.Balance);
@@ -41,7 +41,7 @@ namespace BankAccount.ConsoleUI
             service.OpenAccount("New", "Person", "newperson@gmail.com");
             
 
-            Dictionary<string, IAccount> allAccount = service.GetAllAccount();
+            Dictionary<string, Account> allAccount = service.GetAllAccount();
             PrintAccountInfo(allAccount);
 
             foreach (string number in GetAllAccountNumbers(allAccount))
@@ -49,7 +49,7 @@ namespace BankAccount.ConsoleUI
                 service.Deposite(number, 20);
             }
 
-            Dictionary<string, IAccount> afterDeposite = service.GetAllAccount();
+            Dictionary<string, Account> afterDeposite = service.GetAllAccount();
             PrintAccountInfo(afterDeposite);
 
             Console.ReadKey();

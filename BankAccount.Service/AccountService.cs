@@ -22,7 +22,7 @@ namespace BankAccount.Service
 
         public void OpenAccount(string name, string surname, string email, string passport = null)
         {
-            IAccount newAccount = new Account(AccountType.Gold, generator, name, surname, email, passport);
+            Account newAccount = new BaseAccount( generator, name, surname, email, passport);
             repository.Create(newAccount);
         }
 
@@ -40,7 +40,7 @@ namespace BankAccount.Service
             repository.Accounts[accountNumber].Wirthdraw(amount);
         }
 
-        public Dictionary<string, IAccount> GetAllAccount()
+        public Dictionary<string, Account> GetAllAccount()
         {
             return repository.Read();
         }

@@ -23,6 +23,7 @@ namespace BankAccount.Service
         public void OpenAccount(AccountType type, string name, string surname, string email, string passport = null)
         {
             Account newAccount = null;
+
             switch (type)
             {
                 case AccountType.Base:

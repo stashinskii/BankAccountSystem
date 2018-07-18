@@ -8,6 +8,7 @@ namespace BankAccount.Core
     /// </summary>
     public abstract class Account
     {
+        #region Properties
         protected double BonusPointsCoefficient { get; set; }
 
         public AccountStatus Status { get; set; }
@@ -17,6 +18,7 @@ namespace BankAccount.Core
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
         public int BonusPoints { get; set; }
+        #endregion
 
         #region Constructors
         protected Account(IAccountNumberGenerator numberGenerator, Holder customer)
@@ -36,13 +38,13 @@ namespace BankAccount.Core
         }
         #endregion
 
+        #region Public methods
         public void Deposit(decimal amount)
         {
             CheckStatus();
             Balance += amount;
             BonusPoints += IncomeExtraPoint(amount);
         }
-
 
         public void Wirthdraw(decimal amount)
         {
@@ -68,7 +70,9 @@ namespace BankAccount.Core
             if (Status == AccountStatus.Closed)
                 throw new InvalidAccountOperationException("Account is closed");
         }
+        #endregion
 
+        #region Privtae methods
         private int IncomeExtraPoint(decimal amount)
         {
             return (int)(BonusPointsCoefficient * (int)amount);
@@ -78,5 +82,6 @@ namespace BankAccount.Core
         {
             return (int)(BonusPointsCoefficient * (int)amount) / 2;
         }
+        #endregion
     }
 }

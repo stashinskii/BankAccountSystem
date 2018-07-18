@@ -8,20 +8,22 @@ namespace BankAccount.Core
     /// </summary>
     public abstract class Account
     {
+        protected double BonusPointsCoefficient { get; set; }
+
         public AccountStatus Status { get; set; }
         public Holder AccountHolder { get; set; }
         public AccountType Type { get; set; }
 
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
-        public decimal ExtraPoints { get; set; }
+        public int BonusPoints { get; set; }
 
         #region Constructors
         protected Account(IAccountNumberGenerator numberGenerator, Holder customer)
         {
             AccountNumber = numberGenerator.GenerateAccountNumber(Guid.NewGuid().ToString());
             AccountHolder = customer;
-            ExtraPoints = 30;
+            BonusPoints = 30;
             Status = AccountStatus.Opened;
         }
 
@@ -29,7 +31,7 @@ namespace BankAccount.Core
         {
             AccountNumber = numberGenerator.GenerateAccountNumber(Guid.NewGuid().ToString());
             AccountHolder = new Holder(name, surname, email, passport);
-            ExtraPoints = 30;
+            BonusPoints = 30;
             Status = AccountStatus.Opened;
         }
         #endregion
@@ -38,7 +40,7 @@ namespace BankAccount.Core
         {
             CheckStatus();
             Balance += amount;
-            ExtraPoints += IncomeExtraPoint(amount);
+            BonusPoints += IncomeExtraPoint(amount);
         }
 
 
@@ -50,14 +52,14 @@ namespace BankAccount.Core
                 throw new InvalidAccountOperationException("You don't have enough money for that!");
             }
             Balance -= amount;
-            ExtraPoints -= OutcomeExtraPoint(amount);
+            BonusPoints -= OutcomeExtraPoint(amount);
         }
 
         public void CloseAccount()
         {
             CheckStatus();
             Balance = 0;
-            ExtraPoints = 0;
+            BonusPoints = 0;
             Status = AccountStatus.Closed;
         }
 
@@ -67,14 +69,14 @@ namespace BankAccount.Core
                 throw new InvalidAccountOperationException("Account is closed");
         }
 
-        private decimal IncomeExtraPoint(decimal amount)
+        private int IncomeExtraPoint(decimal amount)
         {
-            return (decimal)Type * amount;
+            return (int)(BonusPointsCoefficient * (int)amount);
         }
 
-        private decimal OutcomeExtraPoint(decimal amount)
+        private int OutcomeExtraPoint(decimal amount)
         {
-            return (decimal)Type * amount;
+            return (int)(BonusPointsCoefficient * (int)amount) / 2;
         }
     }
 }

@@ -20,9 +20,22 @@ namespace BankAccount.Service
             generator = givenGenerator;
         }
 
-        public void OpenAccount(string name, string surname, string email, string passport = null)
+        public void OpenAccount(AccountType type, string name, string surname, string email, string passport = null)
         {
-            Account newAccount = new BaseAccount( generator, name, surname, email, passport);
+            Account newAccount = null;
+            switch (type)
+            {
+                case AccountType.Base:
+                    newAccount = new BaseAccount(generator, name, surname, email, passport);
+                    break;
+                case AccountType.Gold:
+                    newAccount = new GoldAccount(generator, name, surname, email, passport);
+                    break;
+                case AccountType.Platinum:
+                    newAccount = new PlatinumAccount(generator, name, surname, email, passport);
+                    break;
+            }
+
             repository.Create(newAccount);
         }
 

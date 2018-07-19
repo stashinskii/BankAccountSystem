@@ -13,7 +13,8 @@ namespace BankAccount.Core
     public class Holder
     {
         #region Public properties
-        string ID { get; set; }
+        public string IdentificationNumber { get; set; }
+        public List<string> Accounts { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string EMail { get; set; }
@@ -28,7 +29,7 @@ namespace BankAccount.Core
             EMail = email;
             SecondName = surname;
             passportNumber = passport;
-            ID = Guid.NewGuid().ToString();
+            IdentificationNumber = Guid.NewGuid().ToString();
         }
         #endregion
 

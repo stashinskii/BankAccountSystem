@@ -11,7 +11,10 @@ namespace BankAccount.NUnitTests
     public class AccountTests
     {
         static FakeRepository repository = new FakeRepository();
-        static AccountService manager = new AccountService(repository ,new AccountNumberGenerator());
+        static FakeHolderRepository holderRepository = new FakeHolderRepository();
+
+
+        static AccountService manager = new AccountService(repository, holderRepository, new AccountNumberGenerator());
 
         public Account AccountGenerator()
         { 

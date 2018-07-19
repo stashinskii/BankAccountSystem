@@ -10,14 +10,14 @@ namespace BankAccount.Core.Interfaces
     /// Represents interface which provide ability of managing accont 
     /// by service by different databases
     /// </summary>
-    public interface IRepository : IDisposable
+    public interface IRepository<T> : IDisposable
     {
-        Dictionary<string, Account> Accounts { get; set; }
+        Dictionary<string, T> RepositoryObjects { get; set; }
 
-        void Create(Account account);
+        void Create(T account);
         void Save();
         void Update(string id);
-        Dictionary<string, Account> Read();
-        Account GetByNumber(string id);
+        Dictionary<string, T> Read();
+        T GetByNumber(string id);
     }
 }

@@ -12,8 +12,9 @@ namespace BankAccount.ConsoleUI
         static void Main(string[] args)
         {
             FakeRepository repository = new FakeRepository();
+            FakeHolderRepository holderRepository = new FakeHolderRepository();
 
-            AccountService service = new AccountService(repository, new AccountNumberGenerator());
+            AccountService service = new AccountService(repository, holderRepository, new AccountNumberGenerator());
 
             service.OpenAccount(AccountType.Base, "Herman", "Stashynski", "germanstashinskii@gmail.com");
             service.OpenAccount(AccountType.Gold, "New", "Person", "newperson@gmail.com");

@@ -9,18 +9,18 @@ namespace BankAccount.Repository
     /// Represents implementation of Fake Repository.
     /// Implemented as a container of Dictionary
     /// </summary>
-    public class FakeRepository : IRepository
+    public class FakeRepository : IRepository<Account>
     {
-        public Dictionary<string, Account> Accounts { get; set; }
+        public Dictionary<string, Account> RepositoryObjects { get; set; }
 
         public FakeRepository()
         {
-            Accounts = new Dictionary<string, Account>();
+            RepositoryObjects = new Dictionary<string, Account>();
         }
 
         public void Create(Account account)
         {
-            Accounts.Add(account.AccountNumber, account);
+            RepositoryObjects.Add(account.AccountNumber, account);
         }
 
         public void Save()
@@ -35,12 +35,12 @@ namespace BankAccount.Repository
 
         public Dictionary<string, Account> Read()
         {
-            return Accounts;
+            return RepositoryObjects;
         }
 
         public Account GetByNumber(string id)
         {
-            return Accounts[id];
+            return RepositoryObjects[id];
         }
 
         public void Dispose()

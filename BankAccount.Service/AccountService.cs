@@ -1,4 +1,5 @@
 ﻿using System;
+using NLog;
 using BankAccount.Repository;
 using BankAccount.Core;
 using BankAccount.Core.Interfaces;
@@ -15,15 +16,22 @@ namespace BankAccount.Service
     public class AccountService
     {
         #region Private fileds
-        private IRepository repository;
+        private IRepository<Account> accountsRepository;
+        private IRepository<Holder> holdersRepository;
         private IAccountNumberGenerator generator;
+        //TODO Make interface for logger
+        private Logger logger;
         #endregion
 
         #region Constructors
-        public AccountService(IRepository givenRepository, IAccountNumberGenerator givenGenerator)
+        public AccountService(IRepository<Account> accounts, IRepository<Holder> holders, IAccountNumberGenerator givenGenerator)
         {
-            repository = givenRepository;
+            accountsRepository = accounts;
+            holdersRepository = holders;
+
             generator = givenGenerator;
+            logger = LogManager.GetLogger("BankServiceLogger");
+            logger.Info("Service were created!");
         }
         #endregion
 
@@ -52,8 +60,17 @@ namespace BankAccount.Service
                     newAccount = new PlatinumAccount(generator, name, surname, email, passport);
                     break;
             }
+            accountsRepository.Create(newAccount);
+            logger.Info($"New account of {name} holder were created");
 
-            repository.Create(newAccount);
+            if (CheckIfExist(email))
+            {
+                //добавляем юзеру AccountNumber
+            }
+            else
+            {
+                //создаем юзера и добавляем ему AccountNumber
+            }
         }
 
         /// <summary>
@@ -62,7 +79,8 @@ namespace BankAccount.Service
         /// <param name="accountNumber">String representation of account number</param>
         public void CloseAccount(string accountNumber)
         {
-            repository.Accounts[accountNumber].Status = AccountStatus.Closed;
+            accountsRepository.RepositoryObjects[accountNumber].Status = AccountStatus.Closed;
+            logger.Info($"Account with number {accountNumber} were closed!");
         }
 
         /// <summary>
@@ -72,7 +90,8 @@ namespace BankAccount.Service
         /// <param name="amount">Amount of income money</param>
         public void Deposite(string accountNumber, decimal amount)
         {
-            repository.Accounts[accountNumber].Deposit(amount);
+            accountsRepository.RepositoryObjects[accountNumber].Deposit(amount);
+            logger.Info($"Account with number {accountNumber} get {amount} of money!");
         }
 
         /// <summary>
@@ -82,12 +101,21 @@ namespace BankAccount.Service
         /// <param name="amount">Amount of outcome money</param>
         public void Wirthdraw(string accountNumber, decimal amount)
         {
-            repository.Accounts[accountNumber].Wirthdraw(amount);
+            accountsRepository.RepositoryObjects[accountNumber].Wirthdraw(amount);
+            logger.Info($"Account with number {accountNumber} loss {amount} of money!");
         }
 
         public Dictionary<string, Account> GetAllAccount()
         {
-            return repository.Read();
+            return accountsRepository.Read();
+        }
+        #endregion
+
+        #region Private methods
+        public bool CheckIfExist(string email)
+        {
+            Dictionary<string, Holder> holders = holdersRepository.Read();
+            return holders.ContainsKey(email);
         }
         #endregion
     }

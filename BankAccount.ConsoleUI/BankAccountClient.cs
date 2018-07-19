@@ -17,8 +17,17 @@ namespace BankAccount.ConsoleUI
             AccountService service = new AccountService(repository, holderRepository, new AccountNumberGenerator());
 
             service.OpenAccount(AccountType.Base, "Herman", "Stashynski", "germanstashinskii@gmail.com");
+            service.OpenAccount(AccountType.Base, "Herman", "Stashynski", "germanstashinskii@gmail.com");
             service.OpenAccount(AccountType.Gold, "New", "Person", "newperson@gmail.com");
             service.OpenAccount(AccountType.Platinum, "Person", "New", "1newperson@gmail.com");
+
+            Dictionary<string, Holder> allHolders = service.GetAllHolders();
+            foreach (KeyValuePair<string, Holder> account in allHolders)
+            {
+                Console.WriteLine(account.Value.EMail);
+            }
+
+            Console.WriteLine("\n");
 
 
             Dictionary<string, Account> allAccount = service.GetAllAccount();

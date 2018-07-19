@@ -13,6 +13,9 @@ namespace BankAccount.Core
     public class AccountNumberGenerator: IAccountNumberGenerator
     {
         //ААААА - BBB - C - DDDD - EEEEEEE 
+
+        public int LastAccountNumber { get; set; }
+
         #region Constants
         const string NON_STATE_ORGANISATION = "407";
         const string NON_COMMERCIAL_ORGANISATION = "03";
@@ -27,14 +30,14 @@ namespace BankAccount.Core
         /// </summary>
         /// <param name="serialNumber">Serial number of account. Provides ability of creating unique number</param>
         /// <returns>Account number</returns>
-        public string GenerateAccountNumber(string serialNumber)
+        public string GenerateAccountNumber()
         {
             return String.Concat(NON_STATE_ORGANISATION, "-",
                                  NON_COMMERCIAL_ORGANISATION, "-",
                                  AMERICAN_DOLLAR_CODE, "-",
                                  CONTROL_KEY, "-",
                                  FILIAL, "-",
-                                 serialNumber);
+                                 LastAccountNumber + 1);
         }
         #endregion
     }

@@ -16,7 +16,7 @@ namespace BankAccount.Core.Interfaces
 
         void Create(T account);
         void Save();
-        void Update(string id);
+        void Update(string key, string info);
         Dictionary<string, T> Read();
         T GetByNumber(string id);
     }

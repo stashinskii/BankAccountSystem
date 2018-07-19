@@ -20,7 +20,7 @@ namespace BankAccount.Service
         private IRepository<Holder> holdersRepository;
         private IAccountNumberGenerator generator;
         //TODO Make interface for logger
-        private Logger logger;
+        //private Logger logger;
         #endregion
 
         #region Constructors
@@ -30,8 +30,10 @@ namespace BankAccount.Service
             holdersRepository = holders;
 
             generator = givenGenerator;
-            logger = LogManager.GetLogger("BankServiceLogger");
-            logger.Info("Service were created!");
+            givenGenerator.LastAccountNumber = accountsRepository.Read().Count;
+
+            //logger = LogManager.GetLogger("BankServiceLogger");
+            //logger.Info("Service were created!");
         }
         #endregion
 
@@ -47,30 +49,35 @@ namespace BankAccount.Service
         public void OpenAccount(AccountType type, string name, string surname, string email, string passport = null)
         {
             Account newAccount = null;
+            Holder holder = new Holder(name, surname, email, passport);
 
             switch (type)
             {
                 case AccountType.Base:
-                    newAccount = new BaseAccount(generator, name, surname, email, passport);
+                    newAccount = new BaseAccount(generator, holder);
                     break;
                 case AccountType.Gold:
-                    newAccount = new GoldAccount(generator, name, surname, email, passport);
+                    newAccount = new GoldAccount(generator, holder);
                     break;
                 case AccountType.Platinum:
-                    newAccount = new PlatinumAccount(generator, name, surname, email, passport);
+                    newAccount = new PlatinumAccount(generator, holder);
                     break;
             }
             accountsRepository.Create(newAccount);
-            logger.Info($"New account of {name} holder were created");
+            //logger.Info($"New account of {name} holder were created");
+
+            //todo валидация на создание юзера и finally - удлаить аккаунт, если траблы с юзером
 
             if (CheckIfExist(email))
             {
-                //добавляем юзеру AccountNumber
+                holdersRepository.Update(email, newAccount.AccountNumber);
             }
             else
             {
-                //создаем юзера и добавляем ему AccountNumber
+                holdersRepository.Create(holder);
+                holdersRepository.Update(email, newAccount.AccountNumber);
             }
+            generator.LastAccountNumber = accountsRepository.Read().Count;
         }
 
         /// <summary>
@@ -80,7 +87,7 @@ namespace BankAccount.Service
         public void CloseAccount(string accountNumber)
         {
             accountsRepository.RepositoryObjects[accountNumber].Status = AccountStatus.Closed;
-            logger.Info($"Account with number {accountNumber} were closed!");
+            //logger.Info($"Account with number {accountNumber} were closed!");
         }
 
         /// <summary>
@@ -91,7 +98,7 @@ namespace BankAccount.Service
         public void Deposite(string accountNumber, decimal amount)
         {
             accountsRepository.RepositoryObjects[accountNumber].Deposit(amount);
-            logger.Info($"Account with number {accountNumber} get {amount} of money!");
+           // logger.Info($"Account with number {accountNumber} get {amount} of money!");
         }
 
         /// <summary>
@@ -102,12 +109,17 @@ namespace BankAccount.Service
         public void Wirthdraw(string accountNumber, decimal amount)
         {
             accountsRepository.RepositoryObjects[accountNumber].Wirthdraw(amount);
-            logger.Info($"Account with number {accountNumber} loss {amount} of money!");
+           // logger.Info($"Account with number {accountNumber} loss {amount} of money!");
         }
 
         public Dictionary<string, Account> GetAllAccount()
         {
             return accountsRepository.Read();
+        }
+
+        public Dictionary<string, Holder> GetAllHolders()
+        {
+            return holdersRepository.Read();
         }
         #endregion
 

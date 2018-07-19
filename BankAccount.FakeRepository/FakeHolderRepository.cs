@@ -27,9 +27,9 @@ namespace BankAccount.Repository
 
         }
 
-        public void Update(string id)
+        public void Update(string email, string id)
         {
-            RepositoryObjects[id].Accounts.Add(id);
+            RepositoryObjects[email].Accounts.Add(id);
         }
 
         public Dictionary<string, Holder> Read()

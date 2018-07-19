@@ -8,6 +8,7 @@ namespace BankAccount.Core.Interfaces
 {
     public interface IAccountNumberGenerator
     {
-        string GenerateAccountNumber(string serialNumber);
+        int LastAccountNumber { get; set; }
+        string GenerateAccountNumber();
     }
 }

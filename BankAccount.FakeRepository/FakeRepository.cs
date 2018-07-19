@@ -28,7 +28,7 @@ namespace BankAccount.Repository
             
         }
 
-        public void Update(string id)
+        public void Update(string key, string id)
         {
 
         }

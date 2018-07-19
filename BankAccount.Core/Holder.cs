@@ -30,6 +30,7 @@ namespace BankAccount.Core
             SecondName = surname;
             passportNumber = passport;
             IdentificationNumber = Guid.NewGuid().ToString();
+            Accounts = new List<string>();
         }
         #endregion
 

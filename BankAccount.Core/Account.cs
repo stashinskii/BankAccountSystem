@@ -24,7 +24,7 @@ namespace BankAccount.Core
         #region Constructors
         protected Account(IAccountNumberGenerator numberGenerator, Holder customer)
         {
-            AccountNumber = numberGenerator.GenerateAccountNumber(Guid.NewGuid().ToString());
+            AccountNumber = numberGenerator.GenerateAccountNumber();
             AccountHolder = customer;
             BonusPoints = 30;
             Status = AccountStatus.Opened;
@@ -32,7 +32,7 @@ namespace BankAccount.Core
 
         protected Account(IAccountNumberGenerator numberGenerator, string name, string surname, string email, string passport = null)
         {
-            AccountNumber = numberGenerator.GenerateAccountNumber(Guid.NewGuid().ToString());
+            AccountNumber = numberGenerator.GenerateAccountNumber();
             AccountHolder = new Holder(name, surname, email, passport);
             BonusPoints = 30;
             Status = AccountStatus.Opened;

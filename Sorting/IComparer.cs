@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
-    public interface IComparer
+    public interface IComparer<T>
     {
-        int Compare(int[] lhs, int[] rhs);
+        int Compare(T lhs, T rhs);
     }
 }

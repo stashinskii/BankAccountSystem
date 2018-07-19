@@ -16,7 +16,19 @@ namespace Sorting
         /// <param name="comparator">
         /// Creator instance which can produce unlimited types of sorting
         /// </param>
-        public static void BubbleArraySort(this int[][] array, IComparer comparator)
+        public static void BubbleArraySort(this int[][] array, IComparer<int[]> comparator)
+        {
+            if (array == null || comparator is null)
+                throw new ArgumentNullException();
+
+            if (array.Length == 0)
+                throw new ArgumentException();
+
+            array.BubbleArraySort(comparator.Compare);
+
+        }
+
+        public static void BubbleArraySort(this int[][] array, Func<int[], int[], int> comparator)
         {
             if (array == null || comparator is null)
                 throw new ArgumentNullException();
@@ -29,7 +41,7 @@ namespace Sorting
                 bool isSorted = true;
                 for (int j = 0; j < array.Length - 1; j++)
                 {
-                    if (comparator.Compare(array[j], array[j + 1]) > 0)
+                    if (comparator.Invoke(array[j], array[j + 1]) > 0)
                     {
                         SwapRows(ref array[j], ref array[j + 1]);
                         isSorted = false;

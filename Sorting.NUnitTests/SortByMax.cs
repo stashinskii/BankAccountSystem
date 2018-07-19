@@ -12,7 +12,7 @@ namespace Sorting.NUnitTests
     /// <param name="lhs">Current row of array</param>
     /// <param name="rhs">Next row of array</param>
     /// <returns>Comparison of two rows</returns>
-    class SortByMax : IComparer
+    class SortByMax : IComparer<int[]>
     {
         #region Public methods
         /// <summary>

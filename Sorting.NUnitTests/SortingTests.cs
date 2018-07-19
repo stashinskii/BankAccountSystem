@@ -14,8 +14,23 @@ namespace Sorting.NUnitTests
         {
             int[][] array = new int[4][] { first, second, third, fourth };
 
-            IComparer comparator = new SortBySum();
+            IComparer<int[]> comparator = new SortBySum();
             array.BubbleArraySort(comparator);
+
+            CollectionAssert.AreEqual(expected, array);
+
+        }
+
+        [TestCaseSource("SourceSumAndMaximim")]
+        public void TestSumSotring_AscendingWithDelegate(int[] first, int[] second, int[] third, int[] fourth, int[][] expected)
+        {
+            int[][] array = new int[4][] { first, second, third, fourth };
+
+
+            IComparer<int[]> comparator = new SortBySum();
+
+           
+           array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
 
@@ -26,7 +41,7 @@ namespace Sorting.NUnitTests
         {
             int[][] array = new int[4][] { first, second, third, fourth };
 
-            IComparer comparator = new SortByMax();
+            IComparer<int[]> comparator = new SortByMax();
             array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
@@ -37,7 +52,7 @@ namespace Sorting.NUnitTests
         {
             int[][] array = new int[3][] { first, second, third };
 
-            IComparer comparator = new SortByMin();
+            IComparer<int[]> comparator = new SortByMin();
             array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
@@ -48,7 +63,7 @@ namespace Sorting.NUnitTests
            Assert.Throws(typeof(ArgumentNullException), () => array.BubbleArraySort(new SortByMax()));
 
         [TestCase(null)]
-        public void TestSumSotring_CreatorNull_ArgumentNullException(IComparer comparator) =>
+        public void TestSumSotring_CreatorNull_ArgumentNullException(IComparer<int[]> comparator) =>
            Assert.Throws(typeof(ArgumentNullException), () => new int[5][].BubbleArraySort(comparator));
 
         [Test]

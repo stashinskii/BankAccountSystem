@@ -72,16 +72,6 @@ namespace BankAccount.NUnitTests
         }
 
         
-        [Test]
-        public void AccountTest_NullData()
-        {
-            Assert.Throws(typeof(ArgumentNullException), () => new GoldAccount(new AccountNumberGenerator(), "Herman", "Stashynski", "dfdfeji"));
-        }
 
-        [Test]
-        public void AccountTest_EmptyData()
-        {
-            Assert.Throws(typeof(ArgumentException), () => new GoldAccount(new AccountNumberGenerator(), "Herman", "Stashynski", "dfdfeji"));
-        }
     }
 }

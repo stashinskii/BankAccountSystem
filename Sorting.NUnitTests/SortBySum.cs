@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sorting.NUnitTests
 {
-    class SortBySum : IComparer
+    class SortBySum : IComparer<int[]>
     {
         #region Public methods
         /// <summary>

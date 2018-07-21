@@ -9,6 +9,6 @@ namespace BankAccount.Core.Interfaces
     public interface IAccountNumberGenerator
     {
         int LastAccountNumber { get; set; }
-        string GenerateAccountNumber();
+        string GenerateAccountNumber(); 
     }
 }

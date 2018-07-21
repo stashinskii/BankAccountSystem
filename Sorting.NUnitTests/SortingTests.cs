@@ -7,7 +7,20 @@ namespace Sorting.NUnitTests
 {
     [TestFixture]
     public class SortingTests
-    { 
+    {
+
+        [TestCaseSource("SourceSumAndMaximim")]
+        public void TestSumSotring_AscendingDelegate(int[] first, int[] second, int[] third, int[] fourth, int[][] expected)
+        {
+            int[][] array = new int[4][] { first, second, third, fourth };
+
+            IComparer<int[]> comparator = new SortBySum();
+            Comparison<int[]> comparer = comparator.Compare;
+            array.BubbleArraySort(comparer);
+
+            CollectionAssert.AreEqual(expected, array);
+
+        }
 
         [TestCaseSource("SourceSumAndMaximim")]
         public void TestSumSotring_Ascending(int[] first, int[] second, int[] third, int[] fourth, int[][] expected)

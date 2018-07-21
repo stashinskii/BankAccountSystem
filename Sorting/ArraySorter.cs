@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sorting
 {
@@ -24,11 +25,63 @@ namespace Sorting
             if (array.Length == 0)
                 throw new ArgumentException();
 
-            array.BubbleArraySort(comparator.Compare);
+            array.Sort(comparator.Compare);
 
         }
 
-        public static void BubbleArraySort(this int[][] array, Func<int[], int[], int> comparator)
+        /// <summary>
+        /// Sorting throw delegate
+        /// </summary>
+        /// <param name="array">Array to be storted</param>
+        /// <param name="comparator">Comparison delegate</param>
+        public static void BubbleArraySort(this int[][] array, Comparison<int[]> comparator)
+        {
+            if (array == null || comparator is null)
+                throw new ArgumentNullException();
+
+            if (array.Length == 0)
+                throw new ArgumentException();
+
+            array.Sort(Comparer<int[]>.Create(comparator));
+        }
+
+        /// <summary>
+        /// Internal implementation of sorting throw delegate
+        /// </summary>
+        /// <param name="array">Array to be sorted</param>
+        /// <param name="comparator">Interface</param>
+        private static void Sort(this int[][] array, IComparer<int[]> comparator)
+        {
+            if (array == null || comparator is null)
+                throw new ArgumentNullException();
+
+            if (array.Length == 0)
+                throw new ArgumentException();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                bool isSorted = true;
+                for (int j = 0; j < array.Length - 1; j++)
+                {
+                    if (comparator.Compare(array[j], array[j + 1]) > 0)
+                    {
+                        SwapRows(ref array[j], ref array[j + 1]);
+                        isSorted = false;
+                    }
+                }
+                if (isSorted)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Internal implementation of sorting throw interface
+        /// </summary>
+        /// <param name="array">Array to be sorted</param>
+        /// <param name="comparator">Delegate</param>
+        public static void Sort(this int[][] array, Comparison<int[]> comparator)
         {
             if (array == null || comparator is null)
                 throw new ArgumentNullException();

@@ -14,9 +14,8 @@ namespace Sorting.NUnitTests
         {
             int[][] array = new int[4][] { first, second, third, fourth };
 
-            IComparer<int[]> comparator = new SortBySum();
-            Comparison<int[]> comparer = comparator.Compare;
-            array.BubbleArraySort(comparer);
+            Comparison<int[]> comparator = new SortBySum().Compare;
+            array.BubbleArraySort(comparator);
 
             CollectionAssert.AreEqual(expected, array);
 

@@ -18,7 +18,6 @@ namespace BLL.Services
         #region Private fileds
         private IRepository<AccountEntity> accountsRepository;
         private IRepository<HolderEntity> holdersRepository;
-        private IAccountNumberGenerator generator;
         //TODO Make interface for logger
         //private Logger logger;
         #endregion
@@ -28,10 +27,6 @@ namespace BLL.Services
         {
             accountsRepository = accounts;
             holdersRepository = holders;
-
-            generator = givenGenerator;
-            givenGenerator.LastAccountNumber = accountsRepository.Read().Count;
-
             //logger = LogManager.GetLogger("BankServiceLogger");
             //logger.Info("Service were created!");
         }
@@ -46,21 +41,21 @@ namespace BLL.Services
         /// <param name="surname">Surname of customer</param>
         /// <param name="email">Email of customer</param>
         /// <param name="passport">Passport number (additional)</param>
-        public void OpenAccount(AccountType type, string name, string surname, string email, string passport = null)
+        public void OpenAccount(string name, string email, AccountType type, IAccountNumberCreateService numberGenerator)
         {
             AccountEntity newAccount = null;
-            HolderEntity holder = new HolderEntity(name, surname, email, passport);
+            HolderEntity holder = new HolderEntity(name, email);
 
             switch (type)
             {
                 case AccountType.Base:
-                    newAccount = new BaseAccount(generator, holder);
+                    newAccount = new BaseAccount(numberGenerator, holder);
                     break;
                 case AccountType.Gold:
-                    newAccount = new GoldAccount(generator, holder);
+                    newAccount = new GoldAccount(numberGenerator, holder);
                     break;
                 case AccountType.Platinum:
-                    newAccount = new PlatinumAccount(generator, holder);
+                    newAccount = new PlatinumAccount(numberGenerator, holder);
                     break;
             }
             accountsRepository.Create(newAccount);
@@ -77,7 +72,7 @@ namespace BLL.Services
                 holdersRepository.Create(holder);
                 holdersRepository.Update(email, newAccount.AccountNumber);
             }
-            generator.LastAccountNumber = accountsRepository.Read().Count;
+            numberGenerator.LastAccountNumber = accountsRepository.Read().Count;
         }
 
         /// <summary>
@@ -95,7 +90,7 @@ namespace BLL.Services
         /// </summary>
         /// <param name="accountNumber">String representation of account number</param>
         /// <param name="amount">Amount of income money</param>
-        public void Deposite(string accountNumber, decimal amount)
+        public void Deposit(string accountNumber, decimal amount)
         {
             accountsRepository.RepositoryObjects[accountNumber].Deposit(amount);
             // logger.Info($"Account with number {accountNumber} get {amount} of money!");
@@ -112,7 +107,7 @@ namespace BLL.Services
             // logger.Info($"Account with number {accountNumber} loss {amount} of money!");
         }
 
-        public Dictionary<string, AccountEntity> GetAllAccount()
+        public Dictionary<string, AccountEntity> GetAllAccounts()
         {
             return accountsRepository.Read();
         }

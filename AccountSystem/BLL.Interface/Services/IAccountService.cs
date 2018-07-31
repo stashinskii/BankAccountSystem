@@ -9,11 +9,11 @@ namespace BLL.Interface.Services
 {
     public interface IAccountService
     {
-        void OpenAccount(AccountType type, string name, string surname, string email, string passport = null);
+        void OpenAccount(string name, string email, AccountType type, IAccountNumberCreateService numberGenerator);
         void CloseAccount(string accountNumber);
-        void Deposite(string accountNumber, decimal amount);
+        void Deposit(string accountNumber, decimal amount);
         void Wirthdraw(string accountNumber, decimal amount);
-        Dictionary<string, AccountEntity> GetAllAccount();
+        Dictionary<string, AccountEntity> GetAllAccounts();
         Dictionary<string, HolderEntity> GetAllHolders();
     }
 }

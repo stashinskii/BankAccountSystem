@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using BLL.Interface.Entities;
-using BLL.Interface.Interfaces;
+using BLL.Interface.Services;
 using DependencyResolver;
 using Ninject;
 

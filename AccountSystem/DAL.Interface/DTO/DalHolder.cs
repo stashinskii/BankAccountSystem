@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace DAL.Interface.DTO
 {
-    interface DalHolder
+    public class DalHolder
     {
+        public string IdentificationNumber { get; set; }
+        public List<string> Accounts { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public string EMail { get; set; }
+        public string passportNumber { get; set; }
     }
 }

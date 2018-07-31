@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface.Services
 {
-    interface IAccountNumberCreateService
+    public interface IAccountNumberCreateService
     {
+        int LastAccountNumber { get; set; }
+        string GenerateAccountNumber();
     }
 }

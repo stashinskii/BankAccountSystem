@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.Interface.Services;
 
 namespace BLL.Interface.Entities
 {
@@ -25,7 +26,7 @@ namespace BLL.Interface.Entities
         #endregion
 
         #region Constructors
-        protected AccountEntity(IAccountNumberGenerator numberGenerator, HolderEntity customer)
+        protected AccountEntity(IAccountNumberCreateService numberGenerator, HolderEntity customer)
         {
             AccountNumber = numberGenerator.GenerateAccountNumber();
             AccountHolder = customer;
@@ -33,10 +34,10 @@ namespace BLL.Interface.Entities
             Status = AccountStatus.Opened;
         }
 
-        protected AccountEntity(IAccountNumberGenerator numberGenerator, string name, string surname, string email, string passport = null)
+        protected AccountEntity(IAccountNumberCreateService numberGenerator, string name, string surname, string email, string passport = null)
         {
             AccountNumber = numberGenerator.GenerateAccountNumber();
-            AccountHolder = new HolderEntity(name, surname, email, passport);
+            AccountHolder = new HolderEntity(name, email);
             BonusPoints = 30;
             Status = AccountStatus.Opened;
         }

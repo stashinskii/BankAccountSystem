@@ -12,20 +12,16 @@ namespace BLL.Interface.Entities
         #region Public properties
         public string IdentificationNumber { get; set; }
         public List<string> Accounts { get; set; }
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
+        public string Name { get; set; }
         public string EMail { get; set; }
-        string passportNumber { get; set; }
         #endregion
 
         #region Constructors 
-        public HolderEntity(string name, string surname, string email, string passport = null)
+        public HolderEntity(string name, string email)
         {
-            CheckCustomerData(email, name, surname);
-            FirstName = name;
+            CheckCustomerData(email, name);
+            Name = name;
             EMail = email;
-            SecondName = surname;
-            passportNumber = passport;
             IdentificationNumber = Guid.NewGuid().ToString();
             Accounts = new List<string>();
         }
@@ -37,8 +33,7 @@ namespace BLL.Interface.Entities
         /// </summary>
         /// <param name="email">String representation of emial</param>
         /// <param name="name">Customer's name</param>
-        /// <param name="surname">Customer's surname</param>
-        private static void CheckCustomerData(string email, string name, string surname)
+        private static void CheckCustomerData(string email, string name)
         {
             Regex emailRegex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             if (!emailRegex.IsMatch(email))
@@ -46,12 +41,12 @@ namespace BLL.Interface.Entities
                 throw new FormatException("Check your e-mail address");
             }
 
-            if (name == null || surname == null)
+            if (name == null)
             {
                 throw new ArgumentNullException("Empty customer data");
             }
 
-            if (name == string.Empty || surname == string.Empty)
+            if (name == string.Empty)
             {
                 throw new ArgumentException("Empty customer data");
             }

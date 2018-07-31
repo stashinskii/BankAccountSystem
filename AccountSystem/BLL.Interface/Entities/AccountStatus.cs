@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface.Entities
 {
-    class AccountStatus
+    /// <summary>
+    /// Represents availible status of Account
+    /// </summary>
+    public enum AccountStatus
     {
-    }
+        Closed, Opened, Frozen
+    };
 }

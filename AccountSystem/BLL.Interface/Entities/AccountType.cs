@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Interface.Entities
 {
-    class AccountType
+    /// <summary>
+    /// Constants describing type of account
+    /// </summary>
+    public enum AccountType
     {
-    }
+        Base, Silver, Gold, Platinum
+    };
 }

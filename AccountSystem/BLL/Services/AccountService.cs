@@ -23,7 +23,7 @@ namespace BLL.Services
         #endregion
 
         #region Constructors
-        public AccountService(IRepository<AccountEntity> accounts, IRepository<HolderEntity> holders, IAccountNumberGenerator givenGenerator)
+        public AccountService(IRepository<AccountEntity> accounts, IRepository<HolderEntity> holders, IAccountNumberCreateService givenGenerator)
         {
             accountsRepository = accounts;
             holdersRepository = holders;
@@ -101,20 +101,20 @@ namespace BLL.Services
         /// </summary>
         /// <param name="accountNumber">String representation of account number</param>
         /// <param name="amount">Amount of outcome money</param>
-        public void Wirthdraw(string accountNumber, decimal amount)
+        public void Withdraw(string accountNumber, decimal amount)
         {
             accountsRepository.RepositoryObjects[accountNumber].Wirthdraw(amount);
             // logger.Info($"Account with number {accountNumber} loss {amount} of money!");
         }
 
-        public Dictionary<string, AccountEntity> GetAllAccounts()
+        public List<AccountEntity> GetAllAccounts()
         {
-            return accountsRepository.Read();
+            return accountsRepository.Read().Select(kvp => kvp.Value).ToList();
         }
 
-        public Dictionary<string, HolderEntity> GetAllHolders()
+        public List<HolderEntity> GetAllHolders()
         {
-            return holdersRepository.Read();
+            return holdersRepository.Read().Select(kvp => kvp.Value).ToList(); ;
         }
         #endregion
 

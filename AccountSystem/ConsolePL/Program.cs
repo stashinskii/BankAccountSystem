@@ -21,20 +21,20 @@ namespace ConsolePL
 
         static Program()
         {
-            //resolver = new StandardKernel();
-            //resolver.ConfigurateResolver();
+            resolver = new StandardKernel();
+            resolver.ConfigurateResolver();
         }
 
         static void Main(string[] args)
         {
-            //IAccountService service = resolver.Get<IAccountService>();
-            //IAccountNumberCreateService creator = resolver.Get<IAccountNumberCreateService>();
+            IAccountService service = resolver.Get<IAccountService>();
+            IAccountNumberCreateService creator = resolver.Get<IAccountNumberCreateService>();
 
 
-            IRepository<DalAccount> accounts = new AccountRepository();
-            IRepository<DalHolder> holders = new HolderRepository();
+            //IRepository<DalAccount> accounts = new AccountRepository();
+            //IRepository<DalHolder> holders = new HolderRepository();
 
-            IAccountService service = new AccountService(accounts, holders, new AccountNumberGenerator());
+            //IAccountService service = new AccountService(accounts, holders, new AccountNumberGenerator());
 
             service.OpenAccount(new AccountEntity("Account owner 2", "sdsd","gerq@gmail.com"));
             service.OpenAccount(new AccountEntity("Account owner 2q", "sdsd", "gerwq@gmail.com"));

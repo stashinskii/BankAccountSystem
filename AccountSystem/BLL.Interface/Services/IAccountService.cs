@@ -9,7 +9,7 @@ namespace BLL.Interface.Services
 {
     public interface IAccountService
     {
-        void OpenAccount(string name, string email, AccountType type, IAccountNumberCreateService numberGenerator);
+        void OpenAccount(AccountEntity account);
         void CloseAccount(string accountNumber);
         void Deposit(string accountNumber, decimal amount);
         void Withdraw(string accountNumber, decimal amount);

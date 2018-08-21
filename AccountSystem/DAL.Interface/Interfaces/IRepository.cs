@@ -12,12 +12,12 @@ namespace DAL.Interface.Interfaces
     /// </summary>
     public interface IRepository<T> : IDisposable
     {
-        Dictionary<string, T> RepositoryObjects { get; set; }
+        List<T> RepositoryObjects { get; set; }
 
         void Create(T account);
         void Save();
-        void Update(string key, string info);
-        Dictionary<string, T> Read();
+        void Update(T obj);
+        List<T> Read();
         T GetByNumber(string id);
     }
 }

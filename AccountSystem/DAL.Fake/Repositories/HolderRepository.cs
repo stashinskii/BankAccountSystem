@@ -10,16 +10,16 @@ namespace DAL.Fake.Repositories
 {
     public class HolderRepository : IRepository<DalHolder>
     {
-        public Dictionary<string, DalHolder> RepositoryObjects { get; set; }
+        public List<DalHolder> RepositoryObjects { get; set; }
 
         public HolderRepository()
         {
-            RepositoryObjects = new Dictionary<string, DalHolder>();
+            RepositoryObjects = new List<DalHolder>();
         }
 
         public void Create(DalHolder holder)
         {
-            RepositoryObjects.Add(holder.EMail, holder);
+            RepositoryObjects.Add(holder);
         }
 
         public void Save()
@@ -27,19 +27,21 @@ namespace DAL.Fake.Repositories
 
         }
 
-        public void Update(string email, string id)
+        public void Update(DalHolder holder)
         {
-            RepositoryObjects[email].Accounts.Add(id);
+            for (int i = 0; i < RepositoryObjects.Count; ++i)
+                if (RepositoryObjects[i].IdentificationNumber == holder.IdentificationNumber)
+                    RepositoryObjects[i] = holder;
         }
 
-        public Dictionary<string, DalHolder> Read()
+        public List<DalHolder> Read()
         {
             return RepositoryObjects;
         }
 
         public DalHolder GetByNumber(string id)
         {
-            return RepositoryObjects[id];
+            return RepositoryObjects.Find(x=> x.IdentificationNumber == id);
         }
 
         public void Dispose()

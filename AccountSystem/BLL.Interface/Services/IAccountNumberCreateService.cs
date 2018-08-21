@@ -8,7 +8,6 @@ namespace BLL.Interface.Services
 {
     public interface IAccountNumberCreateService
     {
-        int LastAccountNumber { get; set; }
         string GenerateAccountNumber();
     }
 }

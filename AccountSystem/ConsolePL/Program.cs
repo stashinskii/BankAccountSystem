@@ -5,6 +5,14 @@ using BLL.Interface.Services;
 using DependencyResolver;
 using Ninject;
 
+
+//УБРАТЬ! и из ссылок убрать все DAL
+using BLL.Services;
+using DAL.Fake.Repositories;
+using DAL.Interface.Interfaces;
+using DAL.Interface.DTO;
+using DAL;
+
 namespace ConsolePL
 {
     class Program
@@ -13,19 +21,27 @@ namespace ConsolePL
 
         static Program()
         {
-            resolver = new StandardKernel();
-            resolver.ConfigurateResolver();
+            //resolver = new StandardKernel();
+            //resolver.ConfigurateResolver();
         }
 
         static void Main(string[] args)
         {
-            IAccountService service = resolver.Get<IAccountService>();
-            IAccountNumberCreateService creator = resolver.Get<IAccountNumberCreateService>();
+            //IAccountService service = resolver.Get<IAccountService>();
+            //IAccountNumberCreateService creator = resolver.Get<IAccountNumberCreateService>();
 
-            service.OpenAccount("Account owner 1", "ger@gmail.com",  AccountType.Base, creator);
-            service.OpenAccount("Account owner 2", "ger1@gmail.com", AccountType.Base, creator);
-            service.OpenAccount("Account owner 3", "ger4@gmail.com", AccountType.Silver, creator);
-            service.OpenAccount("Account owner 4", "ger5@gmail.com", AccountType.Base, creator);
+
+            IRepository<DalAccount> accounts = new AccountRepository();
+            IRepository<DalHolder> holders = new HolderRepository();
+
+            IAccountService service = new AccountService(accounts, holders, new AccountNumberGenerator());
+
+            service.OpenAccount(new AccountEntity("Account owner 2", "sdsd","gerq@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2q", "sdsd", "gerwq@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2qw", "sdsd", "gerq1w@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2wq", "sdsd",  "gejrq@gmail.com"));
+
+
 
             var creditNumbers = service.GetAllAccounts().Select(acc => acc.AccountNumber).ToArray();
 
@@ -36,17 +52,19 @@ namespace ConsolePL
 
             foreach (var item in service.GetAllAccounts())
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.AccountNumber + "  " + item.Balance);
             }
 
+
+            Console.WriteLine();
             foreach (var t in creditNumbers)
             {
-                service.WithdrawAccount(t, 10);
+                service.Withdraw(t, 10);
             }
 
             foreach (var item in service.GetAllAccounts())
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.AccountNumber+ "  "+ item.Balance);
             }
         }
     }

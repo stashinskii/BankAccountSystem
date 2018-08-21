@@ -11,9 +11,7 @@ namespace DAL.Interface.DTO
         protected double BonusPointsCoefficient { get; set; }
         protected decimal MinimumBalance { get; set; }
 
-        public AccountStatus Status { get; set; }
-        public HolderEntity AccountHolder { get; set; }
-        public AccountType Type { get; set; }
+        public DalHolder AccountHolder { get; set; }
 
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }

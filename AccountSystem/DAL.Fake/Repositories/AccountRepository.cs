@@ -14,16 +14,16 @@ namespace DAL.Fake.Repositories
     /// </summary>
     public class AccountRepository : IRepository<DalAccount>
     {
-        public Dictionary<string, DalAccount> RepositoryObjects { get; set; }
+        public List<DalAccount> RepositoryObjects { get; set; }
 
         public AccountRepository()
         {
-            RepositoryObjects = new Dictionary<string, DalAccount>();
+            RepositoryObjects = new List<DalAccount>();
         }
 
         public void Create(DalAccount account)
         {
-            RepositoryObjects.Add(account.AccountNumber, account);
+            RepositoryObjects.Add(account);
         }
 
         public void Save()
@@ -31,19 +31,21 @@ namespace DAL.Fake.Repositories
 
         }
 
-        public void Update(string key, string id)
+        public void Update(DalAccount account)
         {
-
+            for (int i = 0; i < RepositoryObjects.Count; ++i)
+                if (RepositoryObjects[i].AccountNumber == account.AccountNumber)
+                    RepositoryObjects[i] = account;
         }
 
-        public Dictionary<string, DalAccount> Read()
+        public List<DalAccount> Read()
         {
             return RepositoryObjects;
         }
 
         public DalAccount GetByNumber(string id)
         {
-            return RepositoryObjects[id];
+            return RepositoryObjects.Find(x => x.AccountNumber == id);
         }
 
         public void Dispose()

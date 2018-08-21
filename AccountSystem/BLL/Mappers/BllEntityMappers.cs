@@ -14,26 +14,80 @@ namespace BLL.Mappers
         {
             return new DalAccount()
             {
-                AccountHolder = accountEntity.AccountHolder,
+                AccountHolder = accountEntity.AccountHolder.ToDalHolder(),
                 Balance = accountEntity.Balance,
                 AccountNumber = accountEntity.AccountNumber,
                 BonusPoints = accountEntity.BonusPoints,
-                Status = accountEntity.Status,
-                Type = accountEntity.Type
+
             };
         }
 
-        public static DalHolder ToDalDoler(this HolderEntity holderEntity)
+        public static AccountEntity ToAccount(this DalAccount accountEntity)
+        {
+            return new AccountEntity()
+            {
+                AccountHolder = accountEntity.AccountHolder.ToHolder(),
+                Balance = accountEntity.Balance,
+                AccountNumber = accountEntity.AccountNumber,
+                BonusPoints = accountEntity.BonusPoints,
+
+            };
+        }
+
+        public static IEnumerable<AccountEntity> ToAccount(this List<DalAccount> baseAccounts)
+        {
+            foreach (var element in baseAccounts)
+            {
+                yield return element.ToAccount();
+            }
+        }
+
+        public static IEnumerable<DalAccount> ToDalAccount(this List<AccountEntity> baseAccounts)
+        {
+            foreach (var element in baseAccounts)
+            {
+                yield return element.ToDalAccount();
+            }
+        }
+
+        public static DalHolder ToDalHolder(this HolderEntity holderEntity)
         {
             return new DalHolder()
             {
                 Accounts = holderEntity.Accounts,
                 EMail = holderEntity.EMail,
-                FirstName = holderEntity.FirstName,
+                Name = holderEntity.Name,
                 IdentificationNumber = holderEntity.IdentificationNumber,
-                SecondName = holderEntity.SecondName
             };
         }
+
+        public static HolderEntity ToHolder(this DalHolder holderEntity)
+        {
+            return new HolderEntity()
+            {
+                Accounts = holderEntity.Accounts,
+                EMail = holderEntity.EMail,
+                Name = holderEntity.Name,
+                IdentificationNumber = holderEntity.IdentificationNumber,
+            };
+        }
+
+        public static IEnumerable<HolderEntity> ToHolder(this List<DalHolder> holder)
+        {
+            foreach (var element in holder)
+            {
+                yield return element.ToHolder();
+            }
+        }
+
+        public static IEnumerable<DalHolder> ToDalHolder(this List<HolderEntity> holder)
+        {
+            foreach (var element in holder)
+            {
+                yield return element.ToDalHolder();
+            }
+        }
+
     }
 }
   

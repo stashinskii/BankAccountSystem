@@ -17,6 +17,11 @@ namespace BLL.Interface.Entities
         #endregion
 
         #region Constructors 
+        public HolderEntity()
+        {
+
+        }
+
         public HolderEntity(string name, string email)
         {
             CheckCustomerData(email, name);

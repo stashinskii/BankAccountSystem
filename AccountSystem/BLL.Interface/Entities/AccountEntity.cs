@@ -10,15 +10,13 @@ namespace BLL.Interface.Entities
     /// <summary>
     /// Represents basic operations for implementation for account classes 
     /// </summary>
-    public abstract class AccountEntity
+    public class AccountEntity
     {
         #region Properties
         protected double BonusPointsCoefficient { get; set; }
         protected decimal MinimumBalance { get; set; }
 
-        public AccountStatus Status { get; set; }
         public HolderEntity AccountHolder { get; set; }
-        public AccountType Type { get; set; }
 
         public string AccountNumber { get; set; }
         public decimal Balance { get; set; }
@@ -26,20 +24,21 @@ namespace BLL.Interface.Entities
         #endregion
 
         #region Constructors
-        protected AccountEntity(IAccountNumberCreateService numberGenerator, HolderEntity customer)
+        public AccountEntity()
         {
-            AccountNumber = numberGenerator.GenerateAccountNumber();
-            AccountHolder = customer;
-            BonusPoints = 30;
-            Status = AccountStatus.Opened;
+
         }
 
-        protected AccountEntity(IAccountNumberCreateService numberGenerator, string name, string surname, string email, string passport = null)
+        public AccountEntity(HolderEntity customer)
         {
-            AccountNumber = numberGenerator.GenerateAccountNumber();
+            AccountHolder = customer;
+            BonusPoints = 30;
+        }
+
+        public AccountEntity(string name, string surname, string email, string passport = null)
+        {
             AccountHolder = new HolderEntity(name, email);
             BonusPoints = 30;
-            Status = AccountStatus.Opened;
         }
         #endregion
 
@@ -50,7 +49,6 @@ namespace BLL.Interface.Entities
         /// <param name="amount">Amount of income money</param>
         public void Deposit(decimal amount)
         {
-            CheckStatus();
             Balance += amount;
             BonusPoints += IncomeExtraPoint(amount);
         }
@@ -61,7 +59,6 @@ namespace BLL.Interface.Entities
         /// <param name="amount">Amount of outcome money</param>
         public void Wirthdraw(decimal amount)
         {
-            CheckStatus();
             if ((Balance - amount) < MinimumBalance)
             {
                 throw new InvalidAccountOperationException("You don't have enough money for that!");
@@ -75,10 +72,8 @@ namespace BLL.Interface.Entities
         /// </summary>
         public void CloseAccount()
         {
-            CheckStatus();
             Balance = 0;
             BonusPoints = 0;
-            Status = AccountStatus.Closed;
         }
         #endregion
 
@@ -101,15 +96,6 @@ namespace BLL.Interface.Entities
         private int OutcomeExtraPoint(decimal amount)
         {
             return (int)(BonusPointsCoefficient * (int)amount) / 2;
-        }
-
-        /// <summary>
-        /// Checks if account is closed or frozen
-        /// </summary>
-        private void CheckStatus()
-        {
-            if (Status == AccountStatus.Closed || Status == AccountStatus.Frozen)
-                throw new InvalidAccountOperationException("Account is closed");
         }
         #endregion
     }

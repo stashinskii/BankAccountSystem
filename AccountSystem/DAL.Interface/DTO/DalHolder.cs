@@ -8,6 +8,7 @@ namespace DAL.Interface.DTO
 {
     public class DalHolder
     {
+        public int Id { get; set; }
         public string IdentificationNumber { get; set; }
         public List<string> Accounts { get; set; }
         public string Name { get; set; }

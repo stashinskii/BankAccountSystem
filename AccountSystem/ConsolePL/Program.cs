@@ -6,13 +6,6 @@ using DependencyResolver;
 using Ninject;
 
 
-//УБРАТЬ! и из ссылок убрать все DAL
-using BLL.Services;
-using DAL.Fake.Repositories;
-using DAL.Interface.Interfaces;
-using DAL.Interface.DTO;
-using DAL;
-
 namespace ConsolePL
 {
     class Program

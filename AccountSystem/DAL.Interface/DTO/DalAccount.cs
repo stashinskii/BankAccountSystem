@@ -8,6 +8,7 @@ namespace DAL.Interface.DTO
 {
     public class DalAccount
     {
+        public int Id { get; set; }
         protected double BonusPointsCoefficient { get; set; }
         protected decimal MinimumBalance { get; set; }
 

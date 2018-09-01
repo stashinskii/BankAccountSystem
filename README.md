@@ -1,28 +1,16 @@
-## Tasks from *Day 9* 
-Includes:
-### Sorting Arrays Rows:
+﻿# Bank Account System
+Basic features includes:
+  - Get list of accounts and holders
+  - Wirthdraw and deposit
+  - Get information about holder, etc.
 
-* **Sorting**:
-    * Содержит класс **ArraySorter**, который реализует абстрагированное решение, которое принимает объект класса, реализующего IComparer (**в предыдущей версии фабрика ошибочно использовалась как стратегия**)
-	* Содержит **метод-расширение** для сортировки
-	* Строки могут быть разной длинны
-* **Sorting.NUnitTests**:
-	* Реализация IComparer
-    * Тесты для сортировки по сумме элементов строки
-	* Тестры для сортировки по максимальному и минимальному элементу в строке
-	* Тесты для валидации данных
-	
-### Bank Account:
+Solution includes next Data Access providers: DAL.**EntityFramework** and DAL.Fake (Simple collection)
 
-* **BankAccount.Core**:
-    Описание основых сущностей
-* **BankAccount.NUnitTests**:
-    * Модульные тесты
-* **BankAccount.ConsoleUI**:
-    * Консольное клиент-приложение для работы с банковским счетом
-* **BankAccount.Repository**:
-    * Реализация FakeRepository 
-* **BankRepository.Service**:
-    * Менеджер счетов
-	
-
+| Module | Link |
+| ------ | ------ |
+| BLL Implementation| [BLL](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/BLL) |  
+| BLL Prototype | [BLL.Interface](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/BLL.Interface) |
+| Entity Framework Storage | [DAL.EntityFramework](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/DAL.EntityFramework) |
+| Fake Repository | [DAL.Fake](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/DAL.Fake)|
+| DAL Prototype | [DAL.Interface](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/DAL.Interface) |
+| IoC-container config (Ninject) | [DependencyResolver](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/DependencyResolver) |

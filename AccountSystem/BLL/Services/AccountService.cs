@@ -47,6 +47,7 @@ namespace BLL.Services
         /// <param name="passport">Passport number (additional)</param>
         public void OpenAccount(AccountEntity account)
         {
+            CheckIfExist(account);
             HolderEntity holder = holdersRepository.Read().ToHolder().FirstOrDefault(x => x.IdentificationNumber == account.AccountHolder.IdentificationNumber);
 
             if (holder == null)
@@ -110,13 +111,14 @@ namespace BLL.Services
         #endregion
 
         #region Private methods
-        public bool CheckIfExist(string email)
+        public void CheckIfExist(AccountEntity account)
         {
             List<HolderEntity> holders = holdersRepository.Read().ToHolder().ToList();
 
-            List<string> emails = holders.Where(x => x.EMail == email).Select(x => x.EMail).ToList();
+            List<string> emails = holders.Where(x => x.EMail == account.AccountHolder.EMail).Select(x => x.EMail).ToList();
 
-            return emails.Contains(email);
+            if (emails.Contains(account.AccountHolder.EMail))
+                throw new InvalidAccountOperationException("This user exist!");
         }
         #endregion
     }

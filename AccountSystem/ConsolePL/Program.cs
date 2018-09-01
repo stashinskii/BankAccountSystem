@@ -29,38 +29,59 @@ namespace ConsolePL
 
             //IAccountService service = new AccountService(accounts, holders, new AccountNumberGenerator());
 
-            service.OpenAccount(new AccountEntity("Account owner 2", "sdsd","g222erq@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2q", "sdsd", "22222gerwq@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2qw", "sdsd", "2233gerq1w@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2wq", "sdsd",  "455gejrq@gmail.com"));
-
-
-
-            var creditNumbers = service.GetAllAccounts().Select(acc => acc.AccountNumber).ToArray();
-
-            foreach (var t in creditNumbers)
+            while (true)
             {
-                service.Deposit(t, 100);
+                PrintMenu();
+                ConsoleKeyInfo choose = Console.ReadKey();
+                if (choose.KeyChar == '1')
+                {
+                    service.OpenAccount(InputAccountData());
+                }
+                else if (choose.KeyChar == '2')
+                {
+                    Console.WriteLine();
+                    foreach (var item in service.GetAllAccounts())
+                    {
+                        Console.WriteLine(item.AccountNumber + " | " + item.Balance + " | " + item.AccountHolder.Name);
+                    }
+                    Console.WriteLine();
+                }
+                else if (choose.KeyChar == '3')
+                {
+                    service.Withdraw(
+                        Console.ReadLine(),
+                        decimal.Parse(Console.ReadLine()));
+                }
+                else if (choose.KeyChar == '4')
+                {
+                    service.Deposit(
+                        Console.ReadLine(),
+                        decimal.Parse(Console.ReadLine()));
+                }
+                else if (choose.KeyChar == '5')
+                {
+                    Console.WriteLine("Soon...");
+                }
+
             }
+        }
 
-            foreach (var item in service.GetAllAccounts())
-            {
-                Console.WriteLine(item.AccountNumber + "  " + item.Balance);
-            }
+        public static void PrintMenu()
+        {
+            Console.WriteLine("1. Add account");
+            Console.WriteLine("2. List of accounts");
+            Console.WriteLine("3. Wirthdraw money");
+            Console.WriteLine("4. Deposit money");
+            Console.WriteLine("5. Get account info");
+        }
 
-            Console.ReadKey();
-
-
-            Console.WriteLine();
-            foreach (var t in creditNumbers)
-            {
-                service.Withdraw(t, 10);
-            }
-
-            foreach (var item in service.GetAllAccounts())
-            {
-                Console.WriteLine(item.AccountNumber+ "  "+ item.Balance);
-            }
+        public static AccountEntity InputAccountData()
+        {
+            Console.WriteLine("\nName, Surname, Email:");
+            return new AccountEntity(
+                Console.ReadLine(), 
+                Console.ReadLine(), 
+                Console.ReadLine());
         }
     }
 }

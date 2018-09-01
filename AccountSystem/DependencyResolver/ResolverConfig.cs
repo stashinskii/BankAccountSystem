@@ -20,13 +20,13 @@ namespace DependencyResolver
             kernel.Bind<IAccountNumberCreateService>().To<AccountNumberGenerator>();
 
             
-            //kernel.Bind<IRepository<DalAccount>>().To<AccountRepositoryEF>();
-            //kernel.Bind<IRepository<DalHolder>>().To<HoldertRepositoryEF>();
+            kernel.Bind<IRepository<DalAccount>>().To<AccountRepositoryEF>();
+            kernel.Bind<IRepository<DalHolder>>().To<HoldertRepositoryEF>();
             
-            
+            /*
             kernel.Bind<IRepository<DalHolder>>().To<HolderRepository>();
             kernel.Bind<IRepository<DalAccount>>().To<AccountRepository>();    
-            
+            */
             
 
             //kernel.Bind<IApplicationSettings>().To<ApplicationSettings>();

@@ -48,12 +48,14 @@ namespace ConsolePL
                 }
                 else if (choose.KeyChar == '3')
                 {
+                    Console.WriteLine();
                     service.Withdraw(
                         Console.ReadLine(),
                         decimal.Parse(Console.ReadLine()));
                 }
                 else if (choose.KeyChar == '4')
                 {
+                    Console.WriteLine();
                     service.Deposit(
                         Console.ReadLine(),
                         decimal.Parse(Console.ReadLine()));

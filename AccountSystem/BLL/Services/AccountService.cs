@@ -53,14 +53,13 @@ namespace BLL.Services
             if (holder == null)
             {
                 holder = account.AccountHolder;
-                holdersRepository.Create(holder.ToDalHolder());
             }
        
             account.AccountNumber = numberGenerator.GenerateAccountNumber();
             accountsRepository.Create(account.ToDalAccount());
             holder.Accounts.Add(account.AccountNumber); //тут заменить для работы с DAL.Fake (был список строк с номерами аккаунтов)
-            holdersRepository.Update(holder.ToDalHolder());
 
+            holdersRepository.Update(holder.ToDalHolder());
         }
 
         /// <summary>

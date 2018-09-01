@@ -10,7 +10,7 @@ namespace DAL.Interface.DTO
     {
         public int Id { get; set; }
         public string IdentificationNumber { get; set; }
-        public List<string> Accounts { get; set; }
+        public List<string> Accounts { get; set; } = new List<string>();
         public string Name { get; set; }
         public string EMail { get; set; }
     }

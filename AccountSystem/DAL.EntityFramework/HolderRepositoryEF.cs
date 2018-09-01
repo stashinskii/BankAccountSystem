@@ -15,9 +15,10 @@ namespace DAL.EntityFramework
 
         public void Create(DalHolder account)
         {
-            using (HolderContext context = new HolderContext())
+            using (MainContext context = new MainContext())
             {
                 context.Holders.Add(account);
+                context.SaveChanges();
             }
         }
 
@@ -28,7 +29,7 @@ namespace DAL.EntityFramework
 
         public DalHolder GetByNumber(string id)
         {
-            using (HolderContext context = new HolderContext())
+            using (MainContext context = new MainContext())
             {
                 return context.Holders.First(x => x.IdentificationNumber == id);
             }
@@ -36,7 +37,7 @@ namespace DAL.EntityFramework
 
         public List<DalHolder> Read()
         {
-            using (HolderContext context = new HolderContext())
+            using (MainContext context = new MainContext())
             {
                 return context.Holders.ToList();
             }
@@ -49,12 +50,14 @@ namespace DAL.EntityFramework
 
         public void Update(DalHolder obj)
         {
-            using (HolderContext context = new HolderContext())
+            using (MainContext context = new MainContext())
             {
                 var result = context.Holders.SingleOrDefault(b => b.IdentificationNumber == obj.IdentificationNumber);
                 if (result != null)
                 {
-                    result = obj;
+                    result.Accounts = obj.Accounts;
+                    result.EMail = obj.EMail;
+                    result.Name = obj.Name;
                     context.SaveChanges();
                 }
             }

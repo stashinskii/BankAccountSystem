@@ -65,7 +65,7 @@ namespace BLL.Mappers
         {
             return new HolderEntity()
             {
-                Accounts = holderEntity.Accounts,
+                Accounts =  holderEntity.Accounts,
                 EMail = holderEntity.EMail,
                 Name = holderEntity.Name,
                 IdentificationNumber = holderEntity.IdentificationNumber,

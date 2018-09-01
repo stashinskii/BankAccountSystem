@@ -29,10 +29,10 @@ namespace ConsolePL
 
             //IAccountService service = new AccountService(accounts, holders, new AccountNumberGenerator());
 
-            service.OpenAccount(new AccountEntity("Account owner 2", "sdsd","gerq@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2q", "sdsd", "gerwq@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2qw", "sdsd", "gerq1w@gmail.com"));
-            service.OpenAccount(new AccountEntity("Account owner 2wq", "sdsd",  "gejrq@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2", "sdsd","g222erq@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2q", "sdsd", "22222gerwq@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2qw", "sdsd", "2233gerq1w@gmail.com"));
+            service.OpenAccount(new AccountEntity("Account owner 2wq", "sdsd",  "455gejrq@gmail.com"));
 
 
 
@@ -47,6 +47,8 @@ namespace ConsolePL
             {
                 Console.WriteLine(item.AccountNumber + "  " + item.Balance);
             }
+
+            Console.ReadKey();
 
 
             Console.WriteLine();

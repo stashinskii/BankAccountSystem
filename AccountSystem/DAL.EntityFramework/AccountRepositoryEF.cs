@@ -16,7 +16,7 @@ namespace DAL.EntityFramework
 
         public void Create(DalAccount account)
         {
-            using (AccountContext context = new AccountContext())
+            using (MainContext context = new MainContext())
             {
                 context.Accounts.Add(account);
                 context.SaveChanges();
@@ -30,17 +30,17 @@ namespace DAL.EntityFramework
 
         public DalAccount GetByNumber(string id)
         {
-            using (AccountContext context = new AccountContext())
+            using (MainContext context = new MainContext())
             {
-                return context.Accounts.First(x => x.AccountNumber == id);
+                return context.Accounts.Include(p => p.AccountHolder).First(x => x.AccountNumber == id);
             }
         }
 
         public List<DalAccount> Read()
         {
-            using (AccountContext context = new AccountContext())
+            using (MainContext context = new MainContext())
             {
-                return context.Accounts.ToList();
+                return context.Accounts.Include(p => p.AccountHolder).ToList();
             }
         }
 
@@ -51,12 +51,14 @@ namespace DAL.EntityFramework
 
         public void Update(DalAccount obj)
         {
-            using (AccountContext context = new AccountContext())
+            using (MainContext context = new MainContext())
             {
                 var result = context.Accounts.SingleOrDefault(b => b.AccountNumber == obj.AccountNumber);
                 if (result != null)
                 {
-                    result = obj;
+                    result.AccountHolder = obj.AccountHolder;
+                    result.Balance = obj.Balance;
+                    result.BonusPoints = obj.BonusPoints;
                     context.SaveChanges();
                 }
             }

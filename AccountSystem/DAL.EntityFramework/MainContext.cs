@@ -10,11 +10,11 @@ using System.Data.Entity;
 
 namespace DAL.EntityFramework
 {
-    public class AccountContext : DbContext
+    class MainContext : DbContext
     {
-        public AccountContext() : base("AccountsDB") { }
+        public MainContext() : base("BanksDataDB") { }
 
         public DbSet<DalAccount> Accounts { get; set; }
-
+        public DbSet<DalHolder> Holders { get; set; }
     }
 }

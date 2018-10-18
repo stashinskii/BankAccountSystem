@@ -6,7 +6,7 @@ Basic features includes:
 
 Solution includes next Data Access providers: DAL.**EntityFramework** and DAL.Fake (Simple collection)
 
-| Module | Links |
+| Module | Links |1__1
 | ------ | ------ |
 | BLL Implementation| [BLL](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/BLL) |  
 | BLL Prototype | [BLL.Interface](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/BLL.Interface) |

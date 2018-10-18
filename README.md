@@ -20,4 +20,4 @@ Solution includes next Data Access providers: DAL.**EntityFramework** and DAL.Fa
 | ------ | ------ |
 | ASP.NET MVC UI | [MVCPL](#) |
 
-SOME DESCRIPTION
+SOME DESCRIPTION hello world

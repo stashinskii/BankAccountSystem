@@ -16,6 +16,8 @@ Solution includes next Data Access providers: DAL.**EntityFramework** and DAL.Fa
 | IoC-container config (Ninject) | [DependencyResolver](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/DependencyResolver) |
 | Console UI | [ConsolePL](https://github.com/stashinskii/NET.S.2018.Stashynski.09/tree/master/AccountSystem/ConsolePL) |
 
-|Next iteration, soon:||
+|Next iteration, soon:| Link (Description)|
 | ------ | ------ |
 | ASP.NET MVC UI | [MVCPL](#) |
+
+SOME DESCRIPTION
